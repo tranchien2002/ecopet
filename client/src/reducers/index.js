@@ -1,5 +1,8 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
+import tomoReducer from './tomoReducer';
 
-const reducer = combineReducers({});
+const rootReducer = combineReducers({
+  tomo: tomoReducer
+});
 
-export default reducer;
+export default rootReducer;
