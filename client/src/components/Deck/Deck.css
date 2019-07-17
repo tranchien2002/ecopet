@@ -1,0 +1,7 @@
+.card-deck-container{
+    position: relative;
+    margin: auto;
+    padding-top:10%;
+    width: 960px;
+    height: 535px;
+}
