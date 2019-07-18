@@ -1,6 +1,9 @@
 pragma solidity 0.5.0;
 
+import './SafeMath.sol';
+
 contract PetWallet {
+  using SafeMath for uint;
   /*
    * Storage
    */
@@ -27,8 +30,8 @@ contract PetWallet {
    */
 
   modifier validTransaction(uint _value) {
-    require(_value > 0);
-    require(msg.value >= _value);
+    require(_value > 0, 'should send with a value');
+    require(msg.value >= _value, 'can not send msg.value less than target value');
     _;
   }
 
@@ -62,13 +65,13 @@ contract PetWallet {
   if (msg.value > _sendValue) {
     msg.sender.transfer(msg.value - _sendValue);
   }
-  providentFund += _sendValue;
+  providentFund = providentFund.add(_sendValue);
 
   if(lastTimeSavingMoney > lastTimeWithdrawMoney) {
     if(now > nextTimeFreezing) {
       growthTime += 3 days;
     } else {
-      growthTime += (now - lastTimeSavingMoney);
+      growthTime = growthTime.add(now - lastTimeSavingMoney);
     }
   }
 
@@ -87,11 +90,11 @@ contract PetWallet {
     enoughMoney(_amount)
   {
     if(lastTimeWithdrawMoney <= lastTimeSavingMoney) {
-      growthTime += (now - lastTimeSavingMoney);
+      growthTime = growthTime.add(now - lastTimeSavingMoney);
     }
 
     petOwner.transfer(_amount);
-    providentFund -= _amount;
+    providentFund = providentFund.sub(_amount);
     lastTimeWithdrawMoney = now;
 
     if(!isFreezing) {
@@ -107,6 +110,7 @@ contract PetWallet {
     if(now - lastTimeSavingMoney > (3 days)) {
       isFreezing = true;
     }
+
     return isFreezing;
   }
 }

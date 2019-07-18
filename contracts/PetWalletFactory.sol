@@ -18,6 +18,7 @@ contract PetWalletFactory {
   {
     petAddress = address(new PetWallet(_ownerAddress, _petId));
     petAddresses.push(petAddress);
+
     return petAddress;
 
     emit ContractInstantiation(_petId, _ownerAddress , petAddress);
