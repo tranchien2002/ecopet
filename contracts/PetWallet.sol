@@ -69,12 +69,12 @@ contract PetWallet {
       isFreezing = true;
     } else {
       isFreezing = false;
-      if(now > nextFreezingTime) {
+      if(now > nextTimeFreezing) {
         growthTime += 3 days;
         nextTimeFreezing = now + 3 days;
       } else {
         growthTime += (now - lastTimeSavingMoney);
-        nextFreezingTime = now + 3 days;
+        nextTimeFreezing = now + 3 days;
       }
     }
 
@@ -109,13 +109,13 @@ contract PetWallet {
 
   /// @dev Allows to check current status is freezing or not.
   /// if more than 3 days not feed your pet, pet's growth time will be freezing
-  function checkIsFreezing() public returns (bool) {
-      if(!isFreezing && now - lastTimeSavingMoney > (3 days)) {
-          isFreezing = true;
-          lastTimeFreezing = now;
+  function checkIsFreezing() public view returns (bool) {
+    // if(!isFreezing && now - lastTimeSavingMoney > (3 days)) {
+    //   isFreezing = true;
+    //   lastTimeFreezing = now;
 
-          emit IsFreezingTime(isFreezing, now);
-      }
-      return isFreezing;
+    //   emit IsFreezingTime(isFreezing, now);
+    // }
+    return isFreezing;
   }
 }
