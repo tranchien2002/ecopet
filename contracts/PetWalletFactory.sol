@@ -6,9 +6,14 @@ contract PetWalletFactory {
   /*
    *  Events
    */
+
   event ContractInstantiation(uint petId, address petOwner, address instantiatin);
 
-  address[] public petAddresses;
+  /*
+   * Storage
+   */
+
+  mapping(address => address[]) public petAddresses;
 
   /// @dev Allows verified creation of a pet wallet.
   /// @return Returns wallet address.
@@ -17,9 +22,13 @@ contract PetWalletFactory {
     returns (address petAddress)
   {
     petAddress = address(new PetWallet(_ownerAddress, _petId));
-    petAddresses.push(petAddress);
+    petAddresses[_ownerAddress].push(petAddress);
     return petAddress;
 
     emit ContractInstantiation(_petId, _ownerAddress , petAddress);
+  }
+
+  function getAllPetAddressOf(address _petOwner) public view returns (address[] memory) {
+    return petAddresses[_petOwner];
   }
 }
