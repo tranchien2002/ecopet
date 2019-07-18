@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardTitle, CardBody, CardHeader, Progress } from 'reactstrap';
 import './Card.css';
 
-const DefaultCard = (props) => {
+const DefaultCard = props => {
   return (
     <div className='col-md-4 card-item' onClick={props.onClick}>
       <Card>

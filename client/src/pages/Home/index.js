@@ -10,7 +10,7 @@ class Home extends Component {
   }
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return {
     tomo: state.tomo
   };
