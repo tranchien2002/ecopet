@@ -63,7 +63,7 @@ contract PetWallet {
     validTransaction(_sendValue)
   {
   if (msg.value > _sendValue) {
-    msg.sender.transfer(msg.value - _sendValue);
+    msg.sender.transfer(msg.value.sub(_sendValue));
   }
   providentFund = providentFund.add(_sendValue);
 
@@ -71,7 +71,7 @@ contract PetWallet {
     if(now > nextTimeFreezing) {
       growthTime += 3 days;
     } else {
-      growthTime = growthTime.add(now - lastTimeSavingMoney);
+      growthTime = growthTime.add(now.sub(lastTimeSavingMoney));
     }
   }
 
@@ -90,7 +90,7 @@ contract PetWallet {
     enoughMoney(_amount)
   {
     if(lastTimeWithdrawMoney <= lastTimeSavingMoney) {
-      growthTime = growthTime.add(now - lastTimeSavingMoney);
+      growthTime = growthTime.add(now.sub(lastTimeSavingMoney));
     }
 
     petOwner.transfer(_amount);
@@ -107,7 +107,7 @@ contract PetWallet {
   // @dev Allows to check current status is freezing or not.
   // if more than 3 days not feed your pet, pet's growth time will be freezing
   function checkIsFreezing() public returns (bool) {
-    if(now - lastTimeSavingMoney > (3 days)) {
+    if(now.sub(lastTimeSavingMoney) > (3 days)) {
       isFreezing = true;
     }
 
