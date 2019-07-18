@@ -15,8 +15,8 @@ module.exports = {
       network_id: '*',
       port: 8555,
       gas: 0xfffffffffff,
-      gasPrice: 0x01,
-    },
+      gasPrice: 0x01
+    }
   },
 
   mocha: {
