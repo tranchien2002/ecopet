@@ -1,4 +1,7 @@
-
+.card{
+    transition: all 0.5s;
+    width: 290px;
+}
 .card-item{
     width: 100%;
     position: relative;
@@ -16,7 +19,7 @@
     margin-right: 15px;
     border-radius: 8px;
 }
-.item-img {
+.card-header img{
     width: 100%;
     height: 350px;
     box-shadow: 0 5px 15px -8px rgba(0, 0, 0, 0.3), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
@@ -24,4 +27,12 @@
     pointer-events: none;
     border-style: none;
     z-index: 1;
+}
+.card:hover{
+    border: solid pink;
+    transform: scale(1.05);
+}
+.active{
+    border: solid pink;
+    transform: scale(1.05);
 }

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  CardTitle,
-  CardBody,
-  CardHeader,
-  Progress
-} from 'reactstrap';
+import { Card, CardTitle, CardBody, CardHeader, Progress } from 'reactstrap';
 import './Card.css';
 
 const PetCard = (props) => {
@@ -15,7 +9,7 @@ const PetCard = (props) => {
         <CardHeader className='card-header'>
           <img
             alt='...'
-            className='img-center img-fluid item-img '
+            className='img-center img-fluid'
             src='https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg'
           />
         </CardHeader>
