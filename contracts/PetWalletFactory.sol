@@ -6,20 +6,20 @@ contract PetWalletFactory {
   /*
    *  Events
    */
-  event ContractInstantiation(address contractOwner, address instantiatin);
+  event ContractInstantiation(uint petId, address petOwner, address instantiatin);
 
-  address[] public petwallets;
+  address[] public petAddresses;
 
   /// @dev Allows verified creation of a pet wallet.
   /// @return Returns wallet address.
-  function create(address payable _ownerAddress)
+  function create(address payable _ownerAddress, uint _petId)
     public
-    returns (address walletAddress)
+    returns (address petAddress)
   {
-    walletAddress = address(new PetWallet(_ownerAddress));
-    petwallets.push(walletAddress);
-    return walletAddress;
+    petAddress = address(new PetWallet(_ownerAddress, _petId));
+    petAddresses.push(petAddress);
+    return petAddress;
 
-    emit ContractInstantiation(_ownerAddress , walletAddress);
+    emit ContractInstantiation(_petId, _ownerAddress , petAddress);
   }
 }

@@ -6,13 +6,13 @@ contract PetWallet {
    */
 
   address payable public petOwner;
-  uint public currentFund;
-  uint public maxFund;
+  uint public petId;
+  uint public providentFund;
   uint public initialTime;
   uint public growthTime;
   uint public lastTimeSavingMoney;
+  uint public lastTimeWithdrawMoney;
   bool public isFreezing;
-  uint public lastTimeFreezing;
   uint public nextTimeFreezing;
 
   /*
@@ -21,8 +21,6 @@ contract PetWallet {
 
    event SavingMoney(uint amoutSaving, uint sendTime);
    event WithDrawMoney(uint amount, uint time);
-   event IsFreezingTime(bool isFreezing, uint time);
-   event IsGrowthTime(bool isFreezing, uint time);
 
   /*
    * Modifiers
@@ -45,77 +43,70 @@ contract PetWallet {
   }
 
   /// @dev Contract constructor sets initial owner of wallet and initial time.
-  constructor(address payable _owner) public {
+  constructor(address payable _owner, uint _id) public {
     petOwner = _owner;
+    petId = _id;
     initialTime = now;
     lastTimeSavingMoney = now;
     nextTimeFreezing = now + 3 days;
   }
 
-  /// @dev Allows to owner send money to their wallet.
-  /// @param _sendValue: amount of money want to saving.
+  // @dev Allows to owner send money to their wallet.
+  // @param _sendValue: amount of money want to saving.
   function savingMoney(uint _sendValue)
     payable
     public
     onlyOwner()
     validTransaction(_sendValue)
   {
-    if (msg.value > _sendValue) {
-        msg.sender.transfer(msg.value - _sendValue);
-    }
-    currentFund += _sendValue;
+  if (msg.value > _sendValue) {
+    msg.sender.transfer(msg.value - _sendValue);
+  }
+  providentFund += _sendValue;
 
-    if(currentFund < maxFund) {
-      isFreezing = true;
+  if(lastTimeSavingMoney > lastTimeWithdrawMoney) {
+    if(now > nextTimeFreezing) {
+      growthTime += 3 days;
     } else {
-      isFreezing = false;
-      if(now > nextTimeFreezing) {
-        growthTime += 3 days;
-        nextTimeFreezing = now + 3 days;
-      } else {
-        growthTime += (now - lastTimeSavingMoney);
-        nextTimeFreezing = now + 3 days;
-      }
+      growthTime += (now - lastTimeSavingMoney);
     }
-
-    lastTimeSavingMoney = now;
-    nextTimeFreezing = now + 3 days;
-
-    if(currentFund >= maxFund) {
-      maxFund = currentFund;
-    }
-
-    emit SavingMoney(_sendValue, now);
   }
 
-  /// @dev Allows to owner withdraw money in their wallet.
-  /// @param _amount: amount of money want to withdraw.
+  isFreezing = false;
+  lastTimeSavingMoney = now;
+  nextTimeFreezing = now + 3 days;
+
+  emit SavingMoney(_sendValue, now);
+  }
+
+  // @dev Allows to owner withdraw money in their wallet.
+  // @param _amount: amount of money want to withdraw.
   function withdrawMoney(uint _amount)
     public
     onlyOwner()
     enoughMoney(_amount)
   {
+    if(lastTimeWithdrawMoney <= lastTimeSavingMoney) {
+      growthTime += (now - lastTimeSavingMoney);
+    }
+
     petOwner.transfer(_amount);
-    currentFund -= _amount;
+    providentFund -= _amount;
+    lastTimeWithdrawMoney = now;
 
     if(!isFreezing) {
       isFreezing = true;
-      lastTimeFreezing = now;
-      emit IsFreezingTime(isFreezing, now);
     }
 
     emit WithDrawMoney(_amount, now);
   }
 
-  /// @dev Allows to check current status is freezing or not.
-  /// if more than 3 days not feed your pet, pet's growth time will be freezing
-  function checkIsFreezing() public view returns (bool) {
-    // if(!isFreezing && now - lastTimeSavingMoney > (3 days)) {
-    //   isFreezing = true;
-    //   lastTimeFreezing = now;
-
-    //   emit IsFreezingTime(isFreezing, now);
-    // }
+  // @dev Allows to check current status is freezing or not.
+  // if more than 3 days not feed your pet, pet's growth time will be freezing
+  function checkIsFreezing() public returns (bool) {
+    if(now - lastTimeSavingMoney > (3 days)) {
+      isFreezing = true;
+    }
     return isFreezing;
   }
 }
