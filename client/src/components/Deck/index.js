@@ -21,7 +21,7 @@ class PetDeck extends React.Component {
   render() {
     const deck = [];
     for (let i = 0; i < this.props.total; i++) {
-      deck.push(<PetCard key={i} age='50' size='30' name='Corgi' />);
+      deck.push(<PetCard age='50' size='30' name='Corgi' address='123' />);
     }
     deck.push(<DefaultCard key={deck.length + 1} onClick={this.toggle} />);
     return (
