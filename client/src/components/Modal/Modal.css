@@ -1,0 +1,11 @@
+
+.modal-dialog{
+    height: 800px;
+    max-width: 1000px;
+}
+.card-deck{
+    position: relative;
+    margin: auto;
+    width: 960px;
+    height: 535px;
+}
