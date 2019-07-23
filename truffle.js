@@ -1,3 +1,6 @@
+var HDWalletProvider = require('truffle-hdwallet-provider');
+require('dotenv').config();
+
 module.exports = {
   networks: {
     development: {
@@ -16,6 +19,34 @@ module.exports = {
       port: 8555,
       gas: 0xfffffffffff,
       gasPrice: 0x01
+    },
+    tomotestnet: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.MNENOMIC,
+          'https://testnet.tomochain.com',
+          0,
+          1,
+          true
+        ),
+      network_id: '89',
+      gas: 3000000,
+      gasPrice: 20000000000000,
+      gasLimit: 1000000
+    },
+    tomomainnet: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.MNENOMIC,
+          'https://rpc.tomochain.com',
+          0,
+          1,
+          true,
+          "m/44'/889'/0'/0/"
+        ),
+      network_id: '88',
+      gas: 2000000,
+      gasPrice: 10000000000000
     }
   },
 
