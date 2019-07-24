@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, Button, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import NewCard from '../Card/NewCard';
 import './Modal.css';
 import store from 'store';
@@ -22,24 +22,19 @@ class NewPetModal extends React.Component {
           <ModalBody>
             <div className='card-deck row'>
               <NewCard
-                onClick={() => this.handleClick(1)}
-                src='https://i.redd.it/ieed5vswxeu21.jpg'
+                onClick={() => this.handleClick(1).then(this.props.toggle)}
+                src={require('assets/img/penguine.png')}
               />
               <NewCard
-                onClick={() => this.handleClick(2)}
-                src='https://honeysanime.com/wp-content/uploads/2016/05/Chi%E2%80%99s-Sweet-Home-Wallpaper.jpg'
+                onClick={() => this.handleClick(2).then(this.props.toggle)}
+                src={require('assets/img/dragon.png')}
               />
               <NewCard
-                onClick={() => this.handleClick(3)}
-                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjbH3T1w7KuoctUWU8_Jetiw_k8KSXRQgl9YAM-G-dbUOuTqDt'
+                onClick={() => this.handleClick(3).then(this.props.toggle)}
+                src={require('assets/img/cat.png')}
               />
             </div>
           </ModalBody>
-          <ModalFooter>
-            <Button color='danger' onClick={this.props.toggle}>
-              Close
-            </Button>
-          </ModalFooter>
         </Modal>
       </div>
     );
