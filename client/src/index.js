@@ -19,6 +19,8 @@ ReactDOM.render(
 window.addEventListener('load', async () => {
   if (window.web3) {
     await store.dispatch(actions.web3Connect());
+    await store.dispatch(actions.instantiateContracts());
+    await store.dispatch(actions.getAllPets());
   }
 });
 
