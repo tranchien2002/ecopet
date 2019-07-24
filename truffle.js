@@ -1,6 +1,6 @@
 var HDWalletProvider = require('truffle-hdwallet-provider');
 require('dotenv').config();
-
+console.log('mnemonic', process.env);
 module.exports = {
   networks: {
     development: {
@@ -22,13 +22,7 @@ module.exports = {
     },
     tomotestnet: {
       provider: () =>
-        new HDWalletProvider(
-          process.env.MNENOMIC,
-          'https://testnet.tomochain.com',
-          0,
-          1,
-          true
-        ),
+        new HDWalletProvider(process.env.MNENOMIC, 'https://testnet.tomochain.com', 0, 1, true),
       network_id: '89',
       gas: 3000000,
       gasPrice: 20000000000000,

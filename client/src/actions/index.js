@@ -39,12 +39,31 @@ export const getAllPets = () => async (dispatch, getState) => {
   const state = getState();
   const factory = state.tomo.factory;
   const account = state.tomo.account;
-  let pets = await factory.methods
-    .getAllPetAddressOf(account)
-    .call({ from: account });
+  let pets = await factory.methods.getAllPetAddressOf(account).call({ from: account });
   console.log('pets: ', pets);
   dispatch({
     type: GET_ALL_PETS,
     pets
   });
+};
+
+export const CREATE_NEW_PET = 'CREATE_NEW_PET';
+export const createNewPet = (petId) => async (dispatch, getState) => {
+  const state = getState();
+  const factory = state.tomo.factory;
+  const account = state.tomo.account;
+  let newPet = await factory.methods
+    .create(petId)
+    .send({ from: account })
+    .then(() => {
+      dispatch({
+        type: CREATE_NEW_PET,
+        newPet
+      });
+    })
+    .catch((e) => {
+      console.log('Create pet action error', e);
+    });
+
+  console.log('pet: ', newPet);
 };

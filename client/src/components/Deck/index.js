@@ -12,6 +12,7 @@ class PetDeck extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -19,15 +20,15 @@ class PetDeck extends React.Component {
   }
 
   render() {
-    const deck = [];
-    for (let i = 0; i < this.props.total; i++) {
-      deck.push(<PetCard age='50' size='30' name='Corgi' address='123' />);
-    }
-    deck.push(<DefaultCard key={deck.length + 1} onClick={this.toggle} />);
     return (
       <div className='container'>
         <NewPetModal isOpen={this.state.isOpen} toggle={this.toggle} />
-        <div className='card-deck-container row'>{deck}</div>
+        <div className='card-deck-container row'>
+          {this.props.deck.map((id) => (
+            <PetCard key={id} age='50' size='30' />
+          ))}
+          <DefaultCard onClick={this.toggle} />
+        </div>
       </div>
     );
   }
