@@ -17,15 +17,15 @@ contract PetWalletFactory {
 
   /// @dev Allows verified creation of a pet wallet.
   /// @return Returns wallet address.
-  function create(address payable _ownerAddress, uint _petId)
+  function create(uint _petId)
     public
     returns (address petAddress)
   {
-    petAddress = address(new PetWallet(_ownerAddress, _petId));
-    petAddresses[_ownerAddress].push(petAddress);
-    return petAddress;
+    petAddress = address(new PetWallet(msg.sender, _petId));
+    petAddresses[msg.sender].push(petAddress);
+    emit ContractInstantiation(_petId, msg.sender, petAddress);
 
-    emit ContractInstantiation(_petId, _ownerAddress , petAddress);
+    return petAddress;
   }
 
   function getAllPetAddressOf(address _petOwner) public view returns (address[] memory) {
