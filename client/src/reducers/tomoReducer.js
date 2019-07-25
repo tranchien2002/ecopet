@@ -5,6 +5,7 @@ const initialState = {
   account: null,
   balance: 0,
   pets: null,
+  newPet: null,
   factory: null
 };
 
@@ -25,6 +26,11 @@ const tomoReducer = (state = initialState, action) => {
       return {
         ...state,
         pets: action.pets
+      };
+    case actions.CREATE_NEW_PET:
+      return {
+        ...state,
+        newPet: action.newPet
       };
     default:
       return state;
