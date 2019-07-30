@@ -30,16 +30,13 @@ class PetDetail extends Component {
     await store.dispatch(actions.getAllPets());
 
     let Pet = await this.props.pets[this.props.match.params.address];
-    console.log('Pet: ', Pet);
     this.setState({ petInstance: Pet });
 
     let amount = await Pet.methods.providentFund().call();
     this.setState({ providentFund: amount });
-    // console.log('provident fund: ', amount);
 
     let time = await Pet.methods.growthTime().call();
     this.setState({ growthTime: time });
-    // console.log('growth time: ', time);
   }
 
   handleSendChange = (e) => {
@@ -48,7 +45,6 @@ class PetDetail extends Component {
 
   feedPet = async (event) => {
     let Pet = this.state.petInstance;
-    console.log('pet: ', Pet);
     Pet.methods
       .savingMoney(this.state.sendValue)
       .send({ from: this.props.tomo.account, value: this.state.sendValue * 10 ** 18 });
@@ -61,13 +57,11 @@ class PetDetail extends Component {
 
   withDraw = async (event) => {
     let Pet = this.state.petInstance;
-    console.log('pet: ', Pet);
     Pet.methods.withdrawMoney(this.state.withdrawValue).send({ from: this.props.tomo.account });
     event.preventDefault();
   };
 
   render() {
-    console.log('address pet: ', this.props.match.params.address);
     return (
       <div>
         <Row>
