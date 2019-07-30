@@ -24,8 +24,8 @@ class PetDeck extends React.Component {
       <div className='container'>
         <NewPetModal isOpen={this.state.isOpen} toggle={this.toggle} />
         <div className='card-deck-container row'>
-          {this.props.deck.map((id) => (
-            <PetCard key={id} age='50' size='30' />
+          {this.props.deck.map((item, index) => (
+            <PetCard key={item} age='50' size='30' address={index} />
           ))}
           <DefaultCard onClick={this.toggle} />
         </div>
