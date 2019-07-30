@@ -1,5 +1,6 @@
 import getWeb3 from '../utils/getWeb3';
 import Factory from 'contracts/PetWalletFactory.json';
+import petWallet from 'contracts/PetWallet.json';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
 export const web3Connect = () => async (dispatch) => {
@@ -8,7 +9,6 @@ export const web3Connect = () => async (dispatch) => {
   const accounts = await web3.eth.getAccounts();
   if (accounts.length > 0) {
     const account = accounts[0];
-    console.log('Web3 Account:', account);
     const balance = await web3.eth.getBalance(account);
     dispatch({
       type: WEB3_CONNECT,
@@ -37,10 +37,14 @@ export const instantiateContracts = () => async (dispatch, getState) => {
 export const GET_ALL_PETS = 'GET_ALL_PETS';
 export const getAllPets = () => async (dispatch, getState) => {
   const state = getState();
+  let web3 = state.tomo.web3;
   const factory = state.tomo.factory;
   const account = state.tomo.account;
-  let pets = await factory.methods.getAllPetAddressOf(account).call({ from: account });
-  console.log('pets: ', pets);
+  let petArray = await factory.methods.getAllPetAddressOf(account).call({ from: account });
+  const pets = [];
+  for (let i = 0; i < petArray.length; i++) {
+    pets[i] = new web3.eth.Contract(petWallet.abi, petArray[i]);
+  }
   dispatch({
     type: GET_ALL_PETS,
     pets
@@ -64,6 +68,4 @@ export const createNewPet = (petId) => async (dispatch, getState) => {
     .catch((e) => {
       console.log('Create pet action error', e);
     });
-
-  console.log('pet: ', newPet);
 };

@@ -31,7 +31,7 @@ contract PetWallet {
 
   modifier validTransaction(uint _value) {
     require(_value > 0, 'should send with a value');
-    require(msg.value >= _value, 'can not send msg.value less than target value');
+    require(msg.value >= _value * 1 ether, 'can not send msg.value less than target value');
     _;
   }
 
@@ -41,7 +41,7 @@ contract PetWallet {
   }
 
   modifier enoughMoney(uint _amount) {
-    require(address(this).balance >= _amount, 'not enough money to perform');
+    require(address(this).balance >= _amount * 1 ether, 'not enough money to perform');
     _;
   }
 
@@ -62,8 +62,8 @@ contract PetWallet {
     onlyOwner()
     validTransaction(_sendValue)
   {
-  if (msg.value > _sendValue) {
-    msg.sender.transfer(msg.value.sub(_sendValue));
+  if (msg.value > (_sendValue * 1 ether)) {
+    msg.sender.transfer(msg.value.sub(_sendValue * 1 ether));
   }
   providentFund = providentFund.add(_sendValue);
 
@@ -93,7 +93,7 @@ contract PetWallet {
       growthTime = growthTime.add(now.sub(lastTimeSavingMoney));
     }
 
-    petOwner.transfer(_amount);
+    petOwner.transfer(_amount * 1 ether);
     providentFund = providentFund.sub(_amount);
     lastTimeWithdrawMoney = now;
 
