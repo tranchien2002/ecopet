@@ -41,9 +41,20 @@ export const getAllPets = () => async (dispatch, getState) => {
   const factory = state.tomo.factory;
   const account = state.tomo.account;
   let petArray = await factory.methods.getAllPetAddressOf(account).call({ from: account });
+
   const pets = [];
   for (let i = 0; i < petArray.length; i++) {
-    pets[i] = new web3.eth.Contract(petWallet.abi, petArray[i]);
+    let pet = {
+      instance: null,
+      id: 0,
+      amount: 0,
+      time: 0
+    };
+    pet.instance = new web3.eth.Contract(petWallet.abi, petArray[i]);
+    pet.id = await pet.instance.methods.petId().call();
+    pet.amount = await pet.instance.methods.providentFund().call();
+    pet.time = await pet.instance.methods.growthTime().call();
+    pets.push(pet);
   }
   dispatch({
     type: GET_ALL_PETS,

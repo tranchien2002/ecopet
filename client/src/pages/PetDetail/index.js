@@ -29,7 +29,7 @@ class PetDetail extends Component {
     await store.dispatch(actions.instantiateContracts());
     await store.dispatch(actions.getAllPets());
 
-    let Pet = await this.props.pets[this.props.match.params.address];
+    let Pet = await this.props.pets[this.props.match.params.address].instance;
     this.setState({ petInstance: Pet });
 
     let amount = await Pet.methods.providentFund().call();
@@ -68,7 +68,7 @@ class PetDetail extends Component {
           <Col xs='9'>
             <JellyPet />
           </Col>
-          <Col className='box_color' xs='3'>
+          <Col xs='3'>
             <div className='pet_info'>
               <p>
                 <span>Growth Time: </span>

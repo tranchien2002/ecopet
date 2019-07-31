@@ -4,6 +4,8 @@ import NewCard from '../Card/NewCard';
 import './Modal.css';
 import store from 'store';
 import * as actions from 'actions';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 class NewPetModal extends React.Component {
   constructor(props) {
     super(props);
@@ -21,18 +23,13 @@ class NewPetModal extends React.Component {
           <ModalHeader>Create New Pet</ModalHeader>
           <ModalBody>
             <div className='card-deck row'>
-              <NewCard
-                onClick={() => this.handleClick(1).then(this.props.toggle)}
-                src={require('assets/img/penguine.png')}
-              />
-              <NewCard
-                onClick={() => this.handleClick(2).then(this.props.toggle)}
-                src={require('assets/img/dragon.png')}
-              />
-              <NewCard
-                onClick={() => this.handleClick(3).then(this.props.toggle)}
-                src={require('assets/img/cat.png')}
-              />
+              {Object.keys(this.props.petList).map((item, index) => (
+                <NewCard
+                  key={item}
+                  onClick={() => this.handleClick(item).then(this.props.toggle)}
+                  src={this.props.petList[item]}
+                />
+              ))}
             </div>
           </ModalBody>
         </Modal>
@@ -40,4 +37,10 @@ class NewPetModal extends React.Component {
     );
   }
 }
-export default NewPetModal;
+
+const mapStateToProps = (state) => {
+  return {
+    petList: state.newPets
+  };
+};
+export default compose(connect(mapStateToProps))(NewPetModal);
