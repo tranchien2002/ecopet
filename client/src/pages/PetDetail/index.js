@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Row, Col, Button, Form, Label, Input } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import JellyPet from 'components/JellyPet';
 import store from 'store';
 import * as actions from 'actions';
-
+import * as createjs from 'createjs-module';
 import './index.css';
 
 class PetDetail extends Component {
@@ -17,9 +16,10 @@ class PetDetail extends Component {
       providentFund: 0,
       petInstance: null,
       sendValue: 0,
-      withdrawValue: 0
+      withdrawValue: 0,
+      action: ''
     };
-
+    this.tick = this.tick.bind(this);
     this.feedPet = this.feedPet.bind(this);
     this.withDraw = this.withDraw.bind(this);
   }
@@ -29,9 +29,14 @@ class PetDetail extends Component {
     await store.dispatch(actions.instantiateContracts());
     await store.dispatch(actions.getAllPets());
 
-    let Pet = await this.props.pets[this.props.match.params.address].instance;
+    const Pet = await this.props.pets[this.props.match.params.address].instance;
     this.setState({ petInstance: Pet });
-
+    this.getPetInfo();
+    this.stage = new createjs.Stage('canvas');
+    this.idle();
+  }
+  async getPetInfo() {
+    let Pet = this.state.petInstance;
     let amount = await Pet.methods.providentFund().call();
     this.setState({ providentFund: amount });
 
@@ -44,11 +49,15 @@ class PetDetail extends Component {
   };
 
   feedPet = async (event) => {
-    let Pet = this.state.petInstance;
-    Pet.methods
-      .savingMoney(this.state.sendValue)
-      .send({ from: this.props.tomo.account, value: this.state.sendValue * 10 ** 18 });
     event.preventDefault();
+    let Pet = this.state.petInstance;
+    await Pet.methods
+      .savingMoney(this.state.sendValue)
+      .send({ from: this.props.tomo.account, value: this.state.sendValue * 10 ** 18 })
+      .then(async () => {
+        this.getPetInfo();
+        this.walk();
+      });
   };
 
   handleWithdrawChange = (e) => {
@@ -56,17 +65,117 @@ class PetDetail extends Component {
   };
 
   withDraw = async (event) => {
-    let Pet = this.state.petInstance;
-    Pet.methods.withdrawMoney(this.state.withdrawValue).send({ from: this.props.tomo.account });
     event.preventDefault();
+    let Pet = this.state.petInstance;
+    await Pet.methods
+      .withdrawMoney(this.state.withdrawValue)
+      .send({ from: this.props.tomo.account })
+      .then(async () => {
+        this.getPetInfo();
+        this.dead();
+      });
   };
 
+  walk() {
+    this.stage.removeAllChildren();
+    this.stage.update();
+    let yeti_walk = new createjs.SpriteSheet({
+      images: [require('assets/sprites/whiteYeti/walk.png')],
+      frames: [
+        [1, 1, 104, 111, 0, 0, 0],
+        [107, 1, 100, 107, 0, 0, 0],
+        [209, 1, 121, 104, 0, 0, 0],
+        [332, 1, 112, 104, 0, 0, 0]
+      ],
+
+      animations: {
+        'walk(1)': { frames: [0] },
+        'walk(2)': { frames: [1] },
+        'walk(3)': { frames: [3] },
+        'walk(4)': { frames: [2] }
+      }
+    });
+    let yetiInstance = new createjs.Sprite(yeti_walk);
+    yetiInstance.gotoAndPlay('walk');
+    console.log(this.stage);
+    console.log('instance', yetiInstance);
+
+    // debugger;
+    this.stage.addChild(yetiInstance);
+    createjs.Ticker.addEventListener('tick', this.tick);
+  }
+  idle() {
+    this.stage.removeAllChildren();
+    this.stage.update();
+    let yeti_walk = new createjs.SpriteSheet({
+      images: [require('assets/sprites/whiteYeti/idle.png')],
+      frames: [[0, 0, 100, 107, 0, 0, 0], [100, 0, 100, 107, 0, 0, 0], [200, 0, 100, 107, 0, 0, 0]],
+
+      animations: {
+        8: { frames: [0] },
+        9: { frames: [1] },
+        10: { frames: [2] }
+      }
+    });
+
+    let yetiInstance = new createjs.Sprite(yeti_walk);
+    yetiInstance.gotoAndPlay('idle');
+    yetiInstance.x = 200;
+    yetiInstance.y = 0;
+
+    // debugger;
+    this.stage.addChild(yetiInstance);
+    createjs.Ticker.addEventListener('tick', this.tick);
+  }
+  dead() {
+    this.stage.removeAllChildren();
+    this.stage.update();
+    let yeti_walk = new createjs.SpriteSheet({
+      images: [require('assets/sprites/whiteYeti/dead.png')],
+
+      framerate: 20,
+      frames: [
+        [0, 0, 100, 107, 0, 0, 0],
+        [174, 0, 113, 93, 0, 0, 0],
+        [348, 0, 115, 93, 0, 0, 0],
+        [522, 0, 174, 64, 0, 0, 0],
+        [696, 0, 172, 63, 0, 0, 0],
+        [870, 0, 170, 63, 0, 0, 0],
+        [1044, 0, 170, 63, 0, 0, 0]
+      ],
+
+      animations: {
+        'dead[1]': { frames: [0] },
+        'dead[2]': { frames: [1] },
+        'dead[3]': { frames: [2] },
+        'dead[4]': { frames: [3] },
+        'dead[5]': { frames: [4] },
+        'dead[6]': { frames: [5] },
+        'dead[7]': { frames: [6] }
+      }
+    });
+
+    let yetiInstance = new createjs.Sprite(yeti_walk);
+    yetiInstance.gotoAndPlay('dead');
+    yetiInstance.x = 400;
+    yetiInstance.y = 0;
+
+    // debugger;
+    this.stage.addChild(yetiInstance);
+    createjs.Ticker.addEventListener('tick', this.tick);
+  }
+  tick() {
+    createjs.Ticker.framerate = 5;
+    this.stage.update();
+    console.log('1');
+  }
+  s;
   render() {
     return (
       <div>
         <Row>
           <Col xs='9'>
-            <JellyPet />
+            <canvas id='canvas' width='800' height='400' />;
           </Col>
           <Col xs='3'>
             <div className='pet_info'>

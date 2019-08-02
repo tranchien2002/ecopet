@@ -11,6 +11,7 @@
     "coverage": "solidity-coverage"
   },
   "dependencies": {
+    "createjs-module": "^0.8.3",
     "dotenv": "^8.0.0",
     "ganache-cli": "^6.4.4",
     "openzeppelin-solidity": "^2.3.0",
