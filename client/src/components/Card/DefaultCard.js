@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardTitle, CardBody, CardHeader, Progress } from 'reactstrap';
-import './Card.css';
+import './Card.scss';
 
 const DefaultCard = (props) => {
   return (

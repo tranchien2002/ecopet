@@ -1,9 +1,10 @@
 import React from 'react';
 import { Card, CardTitle, CardBody, CardHeader, Progress } from 'reactstrap';
-import './Card.css';
+import './Card.scss';
 import { Link } from 'react-router-dom';
-
-const PetCard = props => {
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+const PetCard = (props) => {
   return (
     <div className='col-md-4 card-item'>
       <Link to={`/pets/${props.address}`}>
@@ -11,12 +12,12 @@ const PetCard = props => {
           <CardHeader className='card-header'>
             <img
               alt='...'
-              className='img-center img-fluid item-img '
-              src='https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/pembroke-welsh-corgi.jpg'
+              className='img-center img-fluid item-img'
+              src={props.petList[props.type]}
             />
           </CardHeader>
           <CardBody>
-            <CardTitle>Name: {props.name}</CardTitle>
+            <CardTitle>Name: </CardTitle>
             <Progress animated color='danger' value={props.age}>
               Age
             </Progress>
@@ -31,4 +32,9 @@ const PetCard = props => {
   );
 };
 
-export default PetCard;
+const mapStateToProps = (state) => {
+  return {
+    petList: state.newPets
+  };
+};
+export default compose(connect(mapStateToProps))(PetCard);
