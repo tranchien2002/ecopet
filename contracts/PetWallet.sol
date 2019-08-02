@@ -119,4 +119,9 @@ contract PetWallet {
 
     return isFreezing;
   }
+
+  // @dev Allows to get all infomations of this pet
+  function getInfomation() public view returns (uint, uint, uint, uint, uint, string memory) {
+      return (petId, providentFund, growthTime, targetFund, deadLine, purpose);
+  }
 }
