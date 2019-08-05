@@ -95,6 +95,7 @@ contract PetWallet {
     onlyOwner()
     enoughMoney(_amount)
   {
+    require(_amount > 0, 'can not withdraw with 0 value');
     if(lastTimeWithdrawMoney <= lastTimeSavingMoney) {
       growthTime = growthTime.add(now.sub(lastTimeSavingMoney));
     }

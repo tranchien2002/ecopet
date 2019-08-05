@@ -17,7 +17,7 @@ const PetCard = (props) => {
             />
           </CardHeader>
           <CardBody>
-            <CardTitle>Name: </CardTitle>
+            <CardTitle>{props.name} </CardTitle>
             <Progress animated color='danger' value={props.age}>
               Age
             </Progress>

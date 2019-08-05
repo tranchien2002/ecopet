@@ -14,7 +14,7 @@ const DefaultCard = (props) => {
           />
         </CardHeader>
         <CardBody>
-          <CardTitle>Name: {props.name}</CardTitle>
+          <CardTitle>{props.name}</CardTitle>
           <Progress animated color='danger' value={props.age}>
             Age
           </Progress>
