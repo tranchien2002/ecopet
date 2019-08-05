@@ -1,11 +1,14 @@
-
-.modal-dialog{
-    height: 800px;
-    max-width: 1000px;
+.modal-dialog {
+  height: 800px;
+  max-width: 1000px;
 }
-.card-deck{
-    position: relative;
-    margin: auto;
-    width: 960px;
-    height: 535px;
+.card-deck {
+  position: relative;
+  margin: auto;
+  width: 960px;
+  height: 535px;
+}
+.card:hover {
+  border: solid red;
+  transform: scale(1.05);
 }

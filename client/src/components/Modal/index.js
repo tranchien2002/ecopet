@@ -1,35 +1,70 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, Input, Form, Button } from 'reactstrap';
 import NewCard from '../Card/NewCard';
-import './Modal.css';
 import store from 'store';
 import * as actions from 'actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Pet from '../Card/PetInfomation/PetInfomation';
+
+import './Modal.css';
+
 class NewPetModal extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      purpose: '',
+      chosenPet: null
+    };
+
     this.handleClick = this.handleClick.bind(this);
   }
-  async handleClick(type) {
-    await store.dispatch(actions.createNewPet(type));
+
+  async handleClick(pet) {
+    await store.dispatch(
+      actions.createNewPet(pet.type, pet.targetFund, pet.duration, this.state.purpose)
+    );
     await store.dispatch(actions.getAllPets());
   }
 
+  handleChange = (e) => {
+    this.setState({ purpose: e.target.value });
+  };
+
   render() {
+    console.log(Pet);
     return (
       <div>
         <Modal className='modal-dialog' isOpen={this.props.isOpen} toggle={this.props.toggle}>
           <ModalHeader>Create New Pet</ModalHeader>
           <ModalBody>
             <div className='card-deck row'>
-              {Object.keys(this.props.petList).map((item, index) => (
+              {Pet.map((item, index) => (
                 <NewCard
                   key={item}
-                  onClick={() => this.handleClick(item).then(this.props.toggle)}
-                  src={this.props.petList[item]}
+                  onClick={() => this.setState({ chosenPet: item })}
+                  src={item.src}
+                  targetFund={item.targetFund}
+                  duration={item.duration}
                 />
               ))}
+            </div>
+            <div className='create-form'>
+              <Form>
+                <Input
+                  type='string'
+                  id='purpose'
+                  maxLength={16}
+                  placeholder='purpose'
+                  onChange={this.handleChange}
+                />
+                <Button
+                  color='success'
+                  onClick={() => this.handleClick(this.state.chosenPet).then(this.props.toggle)}
+                >
+                  Create
+                </Button>
+              </Form>
             </div>
           </ModalBody>
         </Modal>

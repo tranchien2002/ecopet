@@ -4,7 +4,6 @@ import petWallet from 'contracts/PetWallet.json';
 
 export const WEB3_CONNECT = 'WEB3_CONNECT';
 export const web3Connect = () => async (dispatch) => {
-  // const web3 = new Web3(Web3.givenProvider || 'ws://127.0.0.1:8545');
   const web3 = await getWeb3();
   const accounts = await web3.eth.getAccounts();
   if (accounts.length > 0) {
@@ -48,12 +47,16 @@ export const getAllPets = () => async (dispatch, getState) => {
       instance: null,
       id: 0,
       amount: 0,
-      time: 0
+      time: 0,
+      targetFund: 0,
+      duration: 0
     };
     pet.instance = new web3.eth.Contract(petWallet.abi, petArray[i]);
     pet.id = await pet.instance.methods.petId().call();
     pet.amount = await pet.instance.methods.providentFund().call();
     pet.time = await pet.instance.methods.growthTime().call();
+    pet.targetFund = await pet.instance.methods.targetFund().call();
+    pet.duration = await pet.instance.methods.deadLine().call();
     pets.push(pet);
   }
   dispatch({
@@ -63,12 +66,15 @@ export const getAllPets = () => async (dispatch, getState) => {
 };
 
 export const CREATE_NEW_PET = 'CREATE_NEW_PET';
-export const createNewPet = (petId) => async (dispatch, getState) => {
+export const createNewPet = (petId, targetFund, duration, purpose) => async (
+  dispatch,
+  getState
+) => {
   const state = getState();
   const factory = state.tomo.factory;
   const account = state.tomo.account;
   let newPet = await factory.methods
-    .create(petId)
+    .create(petId, targetFund, duration, purpose)
     .send({ from: account })
     .then(() => {
       dispatch({
