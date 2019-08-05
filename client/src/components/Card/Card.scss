@@ -33,40 +33,45 @@
     border: solid pink;
     transform: scale(1.1);
 }
-.card-header:before,
-.card-header:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background-image: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgb(0, 231, 255) 30%,
-    rgb(255, 0, 231) 70%,
-    transparent 100%
-  );
-  background-position: 0% 0%;
-  background-repeat: no-repeat;
-  background-size: 300% 300%;
-  mix-blend-mode: color-dodge;
-  opacity: 0;
-  z-index: 1;
-  transform: translate3d(0, 0, 0);
-  animation: holoGradient 15s ease infinite;
+.active{
+    border: solid red;
+    transform: scale(1.1);
+
 }
-.card-header:after {
-  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
-  background-position: center;
-  background-size: 180%;
-  border-radius: 8px;
-  mix-blend-mode: color-dodge;
-  opacity: 0;
-  z-index: 2;
-  animation: holoSparkle 20s ease infinite;
-}
+// .card-header:before,
+// .card-header:after {
+//   content: "";
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   top: 0;
+//   background-image: linear-gradient(
+//     115deg,
+//     transparent 0%,
+//     rgb(0, 231, 255) 30%,
+//     rgb(255, 0, 231) 70%,
+//     transparent 100%
+//   );
+//   background-position: 0% 0%;
+//   background-repeat: no-repeat;
+//   background-size: 300% 300%;
+//   mix-blend-mode: color-dodge;
+//   opacity: 0;
+//   z-index: 1;
+//   transform: translate3d(0, 0, 0);
+//   animation: holoGradient 15s ease infinite;
+// }
+// .card-header:after {
+//   background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
+//   background-position: center;
+//   background-size: 180%;
+//   border-radius: 8px;
+//   mix-blend-mode: color-dodge;
+//   opacity: 0;
+//   z-index: 2;
+//   animation: holoSparkle 20s ease infinite;
+// }
 
 .card-header.active:before {
   opacity: 0.5;

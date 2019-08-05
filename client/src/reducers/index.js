@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
 import tomoReducer from './tomoReducer';
-import petReducer from './petReducer';
 
 const rootReducer = combineReducers({
-  tomo: tomoReducer,
-  newPets: petReducer
+  tomo: tomoReducer
 });
 
 export default rootReducer;
