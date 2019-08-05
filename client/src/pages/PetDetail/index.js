@@ -37,7 +37,7 @@ class PetDetail extends Component {
     this.setState({ petInstance: Pet });
     await this.getPetInfo();
     this.stage = new createjs.Stage('canvas');
-    this.idle();
+    this.walk();
   }
   async getPetInfo() {
     let Pet = this.state.petInstance;
