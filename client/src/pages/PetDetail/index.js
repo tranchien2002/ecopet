@@ -15,8 +15,8 @@ class PetDetail extends Component {
       growthTime: 0,
       providentFund: 0,
       petInstance: null,
-      sendValue: 0,
-      withdrawValue: 0,
+      sendValue: '',
+      withdrawValue: '',
       action: ''
     };
     this.tick = this.tick.bind(this);
@@ -57,6 +57,7 @@ class PetDetail extends Component {
       .then(async () => {
         this.getPetInfo();
         this.walk();
+        this.setState({ sendValue: '' });
       });
   };
 
@@ -73,6 +74,7 @@ class PetDetail extends Component {
       .then(async () => {
         this.getPetInfo();
         this.dead();
+        this.setState({ withdrawValue: '' });
       });
   };
 
@@ -167,7 +169,6 @@ class PetDetail extends Component {
   tick() {
     createjs.Ticker.framerate = 5;
     this.stage.update();
-    console.log('1');
   }
   s;
   render() {
@@ -175,7 +176,7 @@ class PetDetail extends Component {
       <div>
         <Row>
           <Col xs='9'>
-            <canvas id='canvas' width='800' height='400' />;
+            <canvas id='canvas' width='800' height='400' />
           </Col>
           <Col xs='3'>
             <div className='pet_info'>
@@ -199,6 +200,7 @@ class PetDetail extends Component {
                   id='feedAmount'
                   placeholder='feed amount'
                   onChange={this.handleSendChange}
+                  value={this.state.sendValue}
                 />
                 <Button color='success' type='submit'>
                   Feed
@@ -211,6 +213,7 @@ class PetDetail extends Component {
                   id='withdrawAmount'
                   placeholder='withdraw amount'
                   onChange={this.handleWithdrawChange}
+                  value={this.state.withdrawValue}
                 />
                 <Button color='primary' type='submit'>
                   Withdraw
