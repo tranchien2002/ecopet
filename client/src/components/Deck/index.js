@@ -29,8 +29,9 @@ class PetDeck extends React.Component {
           {this.props.pets.map((item, index) => (
             <PetCard
               key={index}
-              age={item.time / 3600}
-              size={item.amount}
+              age={(item.time / 86400 / item.duration) * 100}
+              size={(item.amount / item.targetFund) * 100}
+              name={item.purpose}
               address={index}
               type={item.id}
             />
