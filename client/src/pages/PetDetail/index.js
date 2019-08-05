@@ -6,7 +6,8 @@ import store from 'store';
 import * as actions from 'actions';
 import * as createjs from 'createjs-module';
 import './index.css';
-
+import petWallet from 'contracts/PetWallet.json';
+import { Pet } from 'petData';
 class PetDetail extends Component {
   constructor() {
     super();
@@ -27,13 +28,15 @@ class PetDetail extends Component {
   async componentDidMount() {
     await store.dispatch(actions.web3Connect());
     await store.dispatch(actions.instantiateContracts());
-    await store.dispatch(actions.getAllPets());
-
-    const Pet = await this.props.pets[this.props.match.params.address].instance;
+    await store.dispatch(actions.getAllPetsAddress());
+    const Pet = await new this.props.tomo.web3.eth.Contract(
+      petWallet.abi,
+      this.props.petsAddress[this.props.match.params.address]
+    );
     this.setState({ petInstance: Pet });
     this.getPetInfo();
     this.stage = new createjs.Stage('canvas');
-    this.idle();
+    this.walk();
   }
   async getPetInfo() {
     let Pet = this.state.petInstance;
@@ -56,8 +59,7 @@ class PetDetail extends Component {
       .send({ from: this.props.tomo.account, value: this.state.sendValue * 10 ** 18 })
       .then(async () => {
         this.getPetInfo();
-        this.walk();
-        this.setState({ sendValue: '' });
+        this.attack();
       });
   };
 
@@ -81,88 +83,45 @@ class PetDetail extends Component {
   walk() {
     this.stage.removeAllChildren();
     this.stage.update();
-    let yeti_walk = new createjs.SpriteSheet({
-      images: [require('assets/sprites/whiteYeti/walk.png')],
-      frames: [
-        [1, 1, 104, 111, 0, 0, 0],
-        [107, 1, 100, 107, 0, 0, 0],
-        [209, 1, 121, 104, 0, 0, 0],
-        [332, 1, 112, 104, 0, 0, 0]
-      ],
-
-      animations: {
-        'walk(1)': { frames: [0] },
-        'walk(2)': { frames: [1] },
-        'walk(3)': { frames: [3] },
-        'walk(4)': { frames: [2] }
-      }
-    });
+    let yeti_walk = new createjs.SpriteSheet(Pet.Yeti.PinkYeti.walk);
     let yetiInstance = new createjs.Sprite(yeti_walk);
     yetiInstance.gotoAndPlay('walk');
-    console.log(this.stage);
-    console.log('instance', yetiInstance);
-
-    // debugger;
     this.stage.addChild(yetiInstance);
     createjs.Ticker.addEventListener('tick', this.tick);
   }
   idle() {
     this.stage.removeAllChildren();
     this.stage.update();
-    let yeti_walk = new createjs.SpriteSheet({
-      images: [require('assets/sprites/whiteYeti/idle.png')],
-      frames: [[0, 0, 100, 107, 0, 0, 0], [100, 0, 100, 107, 0, 0, 0], [200, 0, 100, 107, 0, 0, 0]],
+    let yeti_idle = new createjs.SpriteSheet(Pet.Yeti.WhiteYeti.idle);
 
-      animations: {
-        8: { frames: [0] },
-        9: { frames: [1] },
-        10: { frames: [2] }
-      }
-    });
-
-    let yetiInstance = new createjs.Sprite(yeti_walk);
+    let yetiInstance = new createjs.Sprite(yeti_idle);
     yetiInstance.gotoAndPlay('idle');
     yetiInstance.x = 200;
     yetiInstance.y = 0;
-
-    // debugger;
     this.stage.addChild(yetiInstance);
     createjs.Ticker.addEventListener('tick', this.tick);
   }
   dead() {
     this.stage.removeAllChildren();
     this.stage.update();
-    let yeti_walk = new createjs.SpriteSheet({
-      images: [require('assets/sprites/whiteYeti/dead.png')],
+    let yeti_dead = new createjs.SpriteSheet(Pet.Yeti.WhiteYeti.dead);
 
-      framerate: 20,
-      frames: [
-        [0, 0, 100, 107, 0, 0, 0],
-        [174, 0, 113, 93, 0, 0, 0],
-        [348, 0, 115, 93, 0, 0, 0],
-        [522, 0, 174, 64, 0, 0, 0],
-        [696, 0, 172, 63, 0, 0, 0],
-        [870, 0, 170, 63, 0, 0, 0],
-        [1044, 0, 170, 63, 0, 0, 0]
-      ],
-
-      animations: {
-        'dead[1]': { frames: [0] },
-        'dead[2]': { frames: [1] },
-        'dead[3]': { frames: [2] },
-        'dead[4]': { frames: [3] },
-        'dead[5]': { frames: [4] },
-        'dead[6]': { frames: [5] },
-        'dead[7]': { frames: [6] }
-      }
-    });
-
-    let yetiInstance = new createjs.Sprite(yeti_walk);
+    let yetiInstance = new createjs.Sprite(yeti_dead);
     yetiInstance.gotoAndPlay('dead');
     yetiInstance.x = 400;
     yetiInstance.y = 0;
+    this.stage.addChild(yetiInstance);
+    createjs.Ticker.addEventListener('tick', this.tick);
+  }
+  attack() {
+    this.stage.removeAllChildren();
+    this.stage.update();
+    let yeti_attack = new createjs.SpriteSheet(Pet.Pig.BlackPig.idle);
 
-    // debugger;
+    let yetiInstance = new createjs.Sprite(yeti_attack);
+    yetiInstance.gotoAndPlay('dead');
+    yetiInstance.x = 400;
+    yetiInstance.y = 0;
     this.stage.addChild(yetiInstance);
     createjs.Ticker.addEventListener('tick', this.tick);
   }
@@ -170,7 +129,6 @@ class PetDetail extends Component {
     createjs.Ticker.framerate = 5;
     this.stage.update();
   }
-  s;
   render() {
     return (
       <div>
@@ -230,7 +188,7 @@ class PetDetail extends Component {
 const mapStateToProps = (state) => {
   return {
     tomo: state.tomo,
-    pets: state.tomo.pets
+    petsAddress: state.tomo.petsAddress
   };
 };
 

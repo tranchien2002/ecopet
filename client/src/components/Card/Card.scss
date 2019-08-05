@@ -33,6 +33,11 @@
     border: solid pink;
     transform: scale(1.1);
 }
+.active{
+    border: solid red;
+    transform: scale(1.1);
+
+}
 .card-header:before,
 .card-header:after {
   content: "";
