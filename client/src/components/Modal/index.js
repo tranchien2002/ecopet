@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, Input, Form, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
 import NewCard from '../Card/NewCard';
 import store from 'store';
 import * as actions from 'actions';
@@ -45,6 +45,8 @@ class NewPetModal extends React.Component {
                   src={item.src}
                   targetFund={item.targetFund}
                   duration={item.duration}
+                  type={item.type}
+                  chosenPet={this.state.chosenPet}
                 />
               ))}
             </div>
@@ -57,12 +59,14 @@ class NewPetModal extends React.Component {
                   placeholder='purpose'
                   onChange={this.handleChange}
                 />
-                <Button
-                  color='success'
-                  onClick={() => this.handleClick(this.state.chosenPet).then(this.props.toggle)}
-                >
-                  Create
-                </Button>
+                <ModalFooter>
+                  <Button
+                    color='success'
+                    onClick={() => this.handleClick(this.state.chosenPet).then(this.props.toggle)}
+                  >
+                    Create
+                  </Button>
+                </ModalFooter>
               </Form>
             </div>
           </ModalBody>
