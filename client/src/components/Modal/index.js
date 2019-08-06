@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, Input, Form, Button } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
 import NewCard from '../Card/NewCard';
 import store from 'store';
 import * as actions from 'actions';
@@ -48,6 +48,8 @@ class NewPetModal extends React.Component {
                 />
               ))}
             </div>
+          </ModalBody>
+          <ModalFooter>
             <div className='create-form'>
               <Form>
                 <Input
@@ -65,7 +67,7 @@ class NewPetModal extends React.Component {
                 </Button>
               </Form>
             </div>
-          </ModalBody>
+          </ModalFooter>
         </Modal>
       </div>
     );
