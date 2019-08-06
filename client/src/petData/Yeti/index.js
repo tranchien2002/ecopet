@@ -28,31 +28,31 @@ const Yeti = {
       index: 0,
       item: WhiteYeti,
       milestone: 0,
-      src: ''
+      src: 'https://image.flaticon.com/icons/svg/1994/1994980.svg'
     },
     {
       index: 1,
       item: PinkYeti,
       milestone: 25,
-      src: ''
+      src: 'https://image.flaticon.com/icons/svg/1994/1994987.svg'
     },
     {
       index: 2,
       item: PinkYeti,
       milestone: 50,
-      src: ''
+      src: 'https://image.flaticon.com/icons/svg/1994/1994999.svg'
     },
     {
       index: 3,
       item: PinkYeti,
       milestone: 75,
-      src: ''
+      src: 'https://image.flaticon.com/icons/svg/1995/1995005.svg'
     },
     {
       index: 4,
       item: PinkYeti,
       milestone: 100,
-      src: ''
+      src: 'https://image.flaticon.com/icons/svg/1995/1995018.svg'
     }
   ]
 };
