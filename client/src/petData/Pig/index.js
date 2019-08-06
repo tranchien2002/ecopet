@@ -1,5 +1,5 @@
 import BlackPig from './BlackPig';
 const Pig = {
-  BlackPig
+  0: BlackPig
 };
 export default Pig;

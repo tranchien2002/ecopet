@@ -1,4 +1,4 @@
-export const walk = {
+const walk = {
   images: [require('assets/sprites/pinkYeti/walk.png')],
 
   framerate: 20,
@@ -16,7 +16,7 @@ export const walk = {
     'walk(4)': { frames: [2] }
   }
 };
-export const idle = {
+const idle = {
   images: [require('assets/sprites/pinkYeti/idle.png')],
   frames: [[0, 0, 100, 107, 0, 0, 0], [100, 0, 100, 107, 0, 0, 0], [200, 0, 100, 107, 0, 0, 0]],
 
@@ -26,6 +26,7 @@ export const idle = {
     'idle(2)': { frames: [2] }
   }
 };
+
 const PinkYeti = {
   walk,
   idle

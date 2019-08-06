@@ -9,20 +9,16 @@ const PetCard = (props) => {
       <Link to={`/pets/${props.index}`}>
         <Card>
           <CardHeader className='card-header'>
-            <img
-              alt='...'
-              className='img-center img-fluid item-img'
-              src={Pet[props.pet.id - 1].src}
-            />
+            <img alt='...' className='img-center img-fluid item-img' src={Pet[props.pet.id].src} />
           </CardHeader>
           <CardBody>
-            <CardTitle>{props.name} </CardTitle>
+            <CardTitle>{props.pet.purpose} </CardTitle>
             <Progress
               animated
               color='danger'
               value={(props.pet.time / 86400 / props.pet.duration) * 100}
             >
-              Age
+              Age: {Math.floor(props.pet.time / 86400)} / {props.pet.duration / 86400} days
             </Progress>
             <br />
             <Progress
@@ -30,7 +26,7 @@ const PetCard = (props) => {
               color='success'
               value={(props.pet.amount / props.pet.targetFund) * 100}
             >
-              Size
+              Size: {props.pet.amount} / {props.pet.targetFund} Tomo
             </Progress>
           </CardBody>
         </Card>

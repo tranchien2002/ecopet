@@ -7,7 +7,8 @@ import * as actions from 'actions';
 import * as createjs from 'createjs-module';
 import './index.css';
 import petWallet from 'contracts/PetWallet.json';
-import { Type } from 'constants/PetType';
+import { Pet } from 'constants/Pet';
+import { PetAction } from 'constants/PetAction';
 class PetDetail extends Component {
   constructor() {
     super();
@@ -17,9 +18,9 @@ class PetDetail extends Component {
       providentFund: 0,
       petInstance: null,
       type: 0,
-      sendValue: 0,
-      withdrawValue: 0,
-      action: ''
+      sendValue: '',
+      withdrawValue: '',
+      progress: 0
     };
     this.tick = this.tick.bind(this);
     this.feedPet = this.feedPet.bind(this);
@@ -30,23 +31,23 @@ class PetDetail extends Component {
     await store.dispatch(actions.web3Connect());
     await store.dispatch(actions.instantiateContracts());
     await store.dispatch(actions.getAllPetsAddress());
-    const Pet = await new this.props.tomo.web3.eth.Contract(
+    let PetInstance = await new this.props.tomo.web3.eth.Contract(
       petWallet.abi,
       this.props.petsAddress[this.props.match.params.address]
     );
-    this.setState({ petInstance: Pet });
+    this.setState({ petInstance: PetInstance });
     await this.getPetInfo();
     this.stage = new createjs.Stage('canvas');
-    this.walk();
+    this.setState({ action: PetAction.DEFAULT });
+    this.action(PetAction.DEFAULT);
   }
   async getPetInfo() {
-    let Pet = this.state.petInstance;
-    let id = await Pet.methods.petId().call();
+    let PetInstance = this.state.petInstance;
+    let id = await PetInstance.methods.petId().call();
     this.setState({ type: id });
-    let amount = await Pet.methods.providentFund().call();
+    let amount = await PetInstance.methods.providentFund().call();
     this.setState({ providentFund: amount });
-
-    let time = await Pet.methods.growthTime().call();
+    let time = await PetInstance.methods.growthTime().call();
     this.setState({ growthTime: time });
   }
 
@@ -56,13 +57,16 @@ class PetDetail extends Component {
 
   feedPet = async (event) => {
     event.preventDefault();
-    let Pet = this.state.petInstance;
-    await Pet.methods
+    let PetInstance = this.state.petInstance;
+    await PetInstance.methods
       .savingMoney(this.state.sendValue)
       .send({ from: this.props.tomo.account, value: this.state.sendValue * 10 ** 18 })
       .then(async () => {
         this.getPetInfo();
-        this.walk();
+        this.setState({
+          sendValue: ''
+        });
+        this.action(PetAction.FEED);
       });
   };
 
@@ -72,72 +76,35 @@ class PetDetail extends Component {
 
   withDraw = async (event) => {
     event.preventDefault();
-    let Pet = this.state.petInstance;
-    await Pet.methods
+    let PetInstance = this.state.petInstance;
+    await PetInstance.methods
       .withdrawMoney(this.state.withdrawValue)
       .send({ from: this.props.tomo.account })
       .then(async () => {
         this.getPetInfo();
-        this.dead();
         this.setState({ withdrawValue: '' });
+        this.action(PetAction.WITHDRAW);
       });
   };
 
-  walk() {
+  action(action) {
     this.stage.removeAllChildren();
-    this.stage.update();
-    let yeti_walk = new createjs.SpriteSheet(Type[this.state.type].walk);
-    let yetiInstance = new createjs.Sprite(yeti_walk);
-    yetiInstance.gotoAndPlay('walk');
-    this.stage.addChild(yetiInstance);
-    createjs.Ticker.addEventListener('tick', this.tick);
-  }
-  idle() {
-    this.stage.removeAllChildren();
-    this.stage.update();
-    let yeti_idle = new createjs.SpriteSheet(Type[this.state.type].idle);
-
-    let yetiInstance = new createjs.Sprite(yeti_idle);
-    yetiInstance.gotoAndPlay('idle');
-    yetiInstance.x = 200;
-    yetiInstance.y = 0;
-    this.stage.addChild(yetiInstance);
-    createjs.Ticker.addEventListener('tick', this.tick);
-  }
-  dead() {
-    this.stage.removeAllChildren();
-    this.stage.update();
-    let yeti_dead = new createjs.SpriteSheet(Type[this.state.type].dead);
-
-    let yetiInstance = new createjs.Sprite(yeti_dead);
-    yetiInstance.gotoAndPlay('dead');
-    yetiInstance.x = 400;
-    yetiInstance.y = 0;
-    this.stage.addChild(yetiInstance);
-    createjs.Ticker.addEventListener('tick', this.tick);
-  }
-  attack() {
-    this.stage.removeAllChildren();
-    this.stage.update();
-    let yeti_attack = new createjs.SpriteSheet(Type[this.state.type].idle);
-
-    let yetiInstance = new createjs.Sprite(yeti_attack);
-    yetiInstance.gotoAndPlay('dead');
-    yetiInstance.x = 400;
-    yetiInstance.y = 0;
-    this.stage.addChild(yetiInstance);
+    let petAction = new createjs.SpriteSheet(Pet[this.state.type][this.state.progress][action]);
+    let petInstance = new createjs.Sprite(petAction);
+    this.stage.addChild(petInstance);
+    petInstance.gotoAndPlay();
     createjs.Ticker.addEventListener('tick', this.tick);
   }
   tick() {
-    createjs.Ticker.framerate = 5;
     this.stage.update();
+    createjs.Ticker.framerate = 5;
   }
   render() {
     return (
       <div>
         <Row>
           <Col xs='9'>
-            <canvas id='canvas' width='800' height='400' />
+            <canvas id='canvas' width='1000px' />
           </Col>
           <Col xs='3'>
             <div className='pet_info'>
