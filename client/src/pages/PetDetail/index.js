@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Form, Label, Input } from 'reactstrap';
+import { Row, Col, Button, Form, Label, Input, Progress } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from 'store';
 import * as actions from 'actions';
 import * as createjs from 'createjs-module';
-import './index.css';
+import StepProgressBar from './StepProgressBar';
 import petWallet from 'contracts/PetWallet.json';
 import { Pet } from 'constants/Pet';
 import { PetAction } from 'constants/PetAction';
+
+import './index.css';
+
 class PetDetail extends Component {
   constructor() {
     super();
@@ -16,12 +19,15 @@ class PetDetail extends Component {
     this.state = {
       growthTime: 0,
       providentFund: 0,
+      duration: 0,
+      targetFund: 0,
       petInstance: null,
       type: 0,
       sendValue: '',
       withdrawValue: '',
       progress: 0
     };
+
     this.tick = this.tick.bind(this);
     this.feedPet = this.feedPet.bind(this);
     this.withDraw = this.withDraw.bind(this);
@@ -41,14 +47,16 @@ class PetDetail extends Component {
     this.setState({ action: PetAction.DEFAULT });
     this.action(PetAction.DEFAULT);
   }
+
   async getPetInfo() {
-    let PetInstance = this.state.petInstance;
-    let id = await PetInstance.methods.petId().call();
-    this.setState({ type: id });
-    let amount = await PetInstance.methods.providentFund().call();
-    this.setState({ providentFund: amount });
-    let time = await PetInstance.methods.growthTime().call();
-    this.setState({ growthTime: time });
+    let Pet = this.state.petInstance;
+    let petInfo = await Pet.methods.getInfomation().call();
+    this.setState({
+      providentFund: petInfo[1],
+      growthTime: petInfo[2],
+      targetFund: petInfo[3],
+      duration: petInfo[4]
+    });
   }
 
   handleSendChange = (e) => {
@@ -95,10 +103,12 @@ class PetDetail extends Component {
     petInstance.gotoAndPlay();
     createjs.Ticker.addEventListener('tick', this.tick);
   }
+
   tick() {
     this.stage.update();
     createjs.Ticker.framerate = 5;
   }
+
   render() {
     return (
       <div>
@@ -107,17 +117,25 @@ class PetDetail extends Component {
             <canvas id='canvas' width='1000px' />
           </Col>
           <Col xs='3'>
-            <div className='pet_info'>
-              <p>
-                <span>Growth Time: </span>
-                <span id='growth_time'>{this.state.growthTime}</span>
-                <span> seconds</span>
-              </p>
-              <p>
-                <span>Provident Fund: </span>
-                <span id='provident_fund'>{this.state.providentFund}</span>
-                <span> TOMO</span>
-              </p>
+            <div className='pet_tracking'>
+              <div className='growth_tracking'>
+                <p>Growth Tracking</p>
+                <StepProgressBar
+                  percent={(this.state.growthTime / this.state.duration) * 100}
+                  step={5}
+                  img='https://image.flaticon.com/icons/png/512/1995/1995002.png'
+                />
+              </div>
+              <div className='fund_tracking'>
+                <p>Fund Tracking</p>
+                <Progress
+                  animated
+                  value={(this.state.providentFund / this.state.targetFund) * 100}
+                  color='warning'
+                >
+                  {this.state.providentFund} / {this.state.targetFund} TOMO
+                </Progress>
+              </div>
             </div>
             <hr />
             <div className='manipulation_form'>

@@ -11,7 +11,7 @@ contract PetWallet {
   address payable public petOwner;
   uint public petId;
   uint public targetFund;
-  uint public deadLine;
+  uint public duration;
   string public purpose;
   uint public providentFund;
   uint public initialTime;
@@ -49,11 +49,11 @@ contract PetWallet {
   }
 
   /// @dev Contract constructor sets initial owner of wallet and initial time.
-  constructor(address payable _owner, uint _id, uint _targetFund, uint _deadLine, string memory _purpose) public {
+  constructor(address payable _owner, uint _id, uint _targetFund, uint _duration, string memory _purpose) public {
     petOwner = _owner;
     petId = _id;
     targetFund = _targetFund;
-    deadLine = now.add(_deadLine * 1 days);
+    duration = _duration * 1 days;
     purpose = _purpose;
     initialTime = now;
     lastTimeSavingMoney = now;
@@ -123,6 +123,6 @@ contract PetWallet {
 
   // @dev Allows to get all infomations of this pet
   function getInfomation() public view returns (uint, uint, uint, uint, uint, string memory) {
-      return (petId, providentFund, growthTime, targetFund, deadLine, purpose);
+      return (petId, providentFund, growthTime, targetFund, duration, purpose);
   }
 }
