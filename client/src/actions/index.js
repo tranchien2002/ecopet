@@ -8,16 +8,35 @@ export const web3Connect = () => async (dispatch) => {
   const accounts = await web3.eth.getAccounts();
   if (accounts.length > 0) {
     const account = accounts[0];
-    const balance = await web3.eth.getBalance(account);
     dispatch({
       type: WEB3_CONNECT,
       web3,
-      account,
-      balance
+      account
     });
   } else {
     console.log('Account not found');
   }
+  dispatch(instantiateContracts());
+  dispatch(getAllPets());
+};
+
+export const web3TomoWalletConnect = () => async (dispatch) => {
+  var Web3 = require('web3');
+  const web3 = new Web3(window.web3.currentProvider);
+  window.web3.eth.getAccounts((e, accounts) => {
+    if (accounts.length > 0) {
+      const account = accounts[0];
+      dispatch({
+        type: WEB3_CONNECT,
+        web3,
+        account
+      });
+      dispatch(instantiateContracts());
+      dispatch(getAllPets());
+    } else {
+      console.log('Account not found');
+    }
+  });
 };
 
 export const INSTANTIATE_CONTRACT = 'INSTANTIATE_CONTRACT';

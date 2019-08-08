@@ -18,9 +18,11 @@ ReactDOM.render(
 
 window.addEventListener('load', async () => {
   if (window.web3) {
-    await store.dispatch(actions.web3Connect());
-    await store.dispatch(actions.instantiateContracts());
-    await store.dispatch(actions.getAllPets());
+    if (window.web3.currentProvider.isMetaMask) {
+      store.dispatch(actions.web3Connect());
+    } else if (window.web3.currentProvider.isTomoWallet) {
+      store.dispatch(actions.web3TomoWalletConnect());
+    }
   }
 });
 
