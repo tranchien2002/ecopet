@@ -1,6 +1,8 @@
 import { PetType } from 'petData';
 
-export const Pet = {
+const Pet = {
   0: PetType.Yeti,
   1: PetType.Pig
 };
+
+export default Pet;
