@@ -64,7 +64,7 @@ class PetDetail extends Component {
     for (let element of progressArray) {
       if (progress <= element.milestone) {
         this.setState({
-          progress: element.index
+          progress: element.index - 1
         });
         break;
       }
