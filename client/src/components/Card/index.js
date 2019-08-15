@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Pet from 'constants/PetInformation';
 const PetCard = (props) => {
   return (
-    <div className='col-md-4 card-item'>
+    <div className='card-item'>
       <Link to={`/pets/${props.index}`}>
         <Card>
           <CardHeader className='card-header'>

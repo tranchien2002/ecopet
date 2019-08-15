@@ -5,10 +5,10 @@ import './Card.scss';
 class NewCard extends React.Component {
   render() {
     return (
-      <div className='col-md-4 card-item' onClick={this.props.onClick} style={this.props.styleCard}>
+      <div className='card-item' onClick={this.props.onClick} style={this.props.styleCard}>
         <Card>
           <CardHeader className='card-header'>
-            <img alt='...' className='img-center img-fluid item-img ' src={this.props.src} />
+            <img alt='...' className='img-center img-fluid item-img' src={this.props.src} />
           </CardHeader>
           <CardFooter>
             <p id='pet-info'>Pet Infomation</p>

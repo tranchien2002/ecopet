@@ -1,11 +1,22 @@
-
-.modal-dialog{
-    height: 800px;
-    max-width: 1000px;
+.modal-dialog {
+  height: 800px;
+  max-width: 1000px;
 }
-.card-deck{
-    position: relative;
+.card-deck {
+  /* position: relative;
     margin: auto;
     width: 960px;
-    height: 535px;
+    height: 535px; */
+  padding-top: 3em;
+}
+.card-item {
+  width: 40%;
+  margin: 0 auto;
+  margin-bottom: 2em;
+}
+
+@media (max-width: 576px) {
+  .card-item {
+    width: 60%;
+  }
 }
