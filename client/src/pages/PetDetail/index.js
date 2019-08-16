@@ -27,7 +27,9 @@ class PetDetail extends Component {
       withdrawValue: '',
       progress: 0,
       action: PetAction.DEFAULT,
-      scale: 1
+      scale: 1,
+      xCoordinate: 700,
+      yCoordinate: 500
     };
 
     this.tick = this.tick.bind(this);
@@ -58,6 +60,7 @@ class PetDetail extends Component {
     this.getSize();
     this.action();
   }
+
   getProgress() {
     let progress = (this.state.growthTime / this.state.duration) * 100;
     let progressArray = Pet[this.state.type].progress;
@@ -70,6 +73,7 @@ class PetDetail extends Component {
       }
     }
   }
+
   getSize() {
     let size = (this.state.providentFund / this.state.targetFund) * 100;
     let sizeArray = Pet[this.state.type].size;
@@ -81,6 +85,7 @@ class PetDetail extends Component {
       }
     }
   }
+
   handleSendChange = (e) => {
     this.setState({ sendValue: e.target.value });
   };
@@ -123,19 +128,32 @@ class PetDetail extends Component {
     let petAction = new createjs.SpriteSheet(
       Pet[this.state.type].progress[this.state.progress].item[this.state.action]
     );
-    let petInstance = new createjs.Sprite(petAction);
-    petInstance.x = 700;
-    petInstance.y = 500;
-    petInstance.scaleX = this.state.scale;
-    petInstance.scaleY = this.state.scale;
-
-    this.stage.addChild(petInstance);
-    petInstance.gotoAndPlay();
+    let petSprite = new createjs.Sprite(petAction);
+    this.setState({ petSprite: petSprite });
+    petSprite.x = this.state.xCoordinate;
+    petSprite.y = this.state.yCoordinate;
+    petSprite.scaleX = this.state.scale;
+    petSprite.scaleY = this.state.scale;
+    this.stage.addChild(petSprite);
+    petSprite.gotoAndPlay();
     createjs.Ticker.addEventListener('tick', this.tick);
   }
 
   tick() {
+    let petSprite = this.state.petSprite;
     this.stage.update();
+    if (this.state.action === PetAction.FEED) {
+      if (petSprite.x < 0) {
+        petSprite.x = 0;
+        petSprite.scaleX = -1 * this.state.scale;
+      } else if (petSprite.x > this.stage.canvas.width) {
+        petSprite.x = this.stage.canvas.width;
+        petSprite.scaleX = 1 * this.state.scale;
+      }
+      petSprite.scaleX > 0 ? (petSprite.x -= 10) : (petSprite.x += 10);
+      this.setState({ xCoordinate: petSprite.x });
+    }
+
     createjs.Ticker.framerate = 5;
   }
 
