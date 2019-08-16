@@ -1,5 +1,5 @@
 import React from 'react';
-import PetCard from '../Card';
+import CarouselCard from '../CarouselCard';
 import DefaultCard from '../Card/DefaultCard';
 import NewPetModal from '../Modal';
 import './Deck.css';
@@ -23,13 +23,34 @@ class PetDeck extends React.Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className='container-custom'>
         <NewPetModal isOpen={this.state.isOpen} toggle={this.toggle} />
-        <div className='card-deck-container row'>
-          {this.props.pets.map((item, index) => (
-            <PetCard key={index} pet={item} index={index} />
-          ))}
-          <DefaultCard onClick={this.toggle} />
+        <div className='box-button-create'>
+          {this.props.pets.length !== 0 ? (
+            <div>
+              <div className='row margin-0 header-create'>
+                <div className='infor-pet col-8'>
+                  <h3 className='infor-wallet'>Information </h3>
+                  <p> Address : </p>
+                  <p> Amount: </p>
+                </div>
+                <div className='btn-create-pet col-4'>
+                  <span className='pushme'>
+                    <span className='inner' onClick={this.toggle}>
+                      <img alt='pet' src={require('assets/img/784101.png')} />{' '}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className='slide-custom'>
+                <CarouselCard pets={this.props.pets} />
+              </div>
+            </div>
+          ) : (
+            <div className='card-create-pet'>
+              <DefaultCard onClick={this.toggle} />
+            </div>
+          )}
         </div>
       </div>
     );

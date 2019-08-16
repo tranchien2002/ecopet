@@ -65,6 +65,9 @@ class NewPetModal extends React.Component {
                 >
                   Create
                 </Button>
+                <Button color='secondary' onClick={this.props.toggle}>
+                  Cancel
+                </Button>
               </Form>
             </div>
           </ModalFooter>

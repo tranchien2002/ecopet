@@ -1,46 +1,47 @@
-.card{
-    transition: all 0.5s;
-    width: 290px;
+.card {
+  transition: all 0.5s;
+  // width: 290px;
 }
-.card-item{
-    width: 100%;
-    position: relative;
-    min-height: 1px;
-    padding-top: 50px;
-    padding-left: 15px;
-    padding-right: 15px;
+.card-item {
+  width: 100%;
+  margin-bottom: 3em;
 }
-.card-header{
-    padding: 0;
-    z-index: 1;
-    position: relative;
-    margin-top: -30px;
-    margin-left: 15px;
-    margin-right: 15px;
-    border-radius: 8px;
+.card-header {
+  padding: 0;
+  z-index: 1;
+  position: relative;
+  margin-top: -30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border-radius: 8px;
 }
-.card-header img{
-    width: 100%;
-    height: 350px;
-    box-shadow: -3px -3px 3px 0 rgba(#26e6f7, 0.6), 3px 3px 3px 0 rgba(#f759e4, 0.6), 0 0 6px 2px rgba(#ffe759, 0.6),
-    0 35px 25px -15px rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    pointer-events: none;
-    z-index: 1;
-    border-style: none;
+.card-header img {
+  width: 100%;
+  height: 300px;
+  box-shadow: -3px -3px 3px 0 rgba(#26e6f7, 0.6), 3px 3px 3px 0 rgba(#f759e4, 0.6),
+    0 0 6px 2px rgba(#ffe759, 0.6), 0 35px 25px -15px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 1;
+  border-style: none;
 }
-.card:hover{
-    border: solid pink;
-    transform: scale(1.1);
+.card:hover {
+  border: solid pink;
+  transform: scale(1.1);
 }
-.active{
-    border: solid red;
-    transform: scale(1.1);
 
+.activeNewCard {
+  border: solid pink;
+  transform: scale(1.1);
+}
+
+.active {
+  // border: solid red;
+  transform: scale(1.1);
 }
 .card-header:before,
 .card-header:after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
@@ -63,7 +64,7 @@
   animation: holoGradient 15s ease infinite;
 }
 .card-header:after {
-  background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif");
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/13471/sparkles.gif');
   background-position: center;
   background-size: 180%;
   border-radius: 8px;
@@ -171,6 +172,12 @@
   font-size: 45px;
 }
 
-.progress{
+.progress {
   height: 25px;
+}
+
+@media (max-width: 576px) {
+  .card-header img {
+    height: 270px;
+  }
 }
