@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Form, Label, Input } from 'reactstrap';
+import { Row, Col, Button, Form, Label, Input, Progress } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from 'store';
 import * as actions from 'actions';
 import * as createjs from 'createjs-module';
-import './index.css';
+import StepProgressBar from './StepProgressBar';
 import petWallet from 'contracts/PetWallet.json';
-import { Pet } from 'constants/Pet';
+import Pet from 'constants/Pet';
 import { PetAction } from 'constants/PetAction';
+
+import './index.css';
+
 class PetDetail extends Component {
   constructor() {
     super();
@@ -26,6 +29,7 @@ class PetDetail extends Component {
       action: PetAction.DEFAULT,
       scale: 1
     };
+
     this.tick = this.tick.bind(this);
     this.feedPet = this.feedPet.bind(this);
     this.withDraw = this.withDraw.bind(this);
@@ -44,6 +48,7 @@ class PetDetail extends Component {
     this.stage = new createjs.Stage('canvas');
     this.getPetInfo();
   }
+
   async getPetInfo() {
     let [type, providentFund, growthTime, targetFund, duration] = Object.values(
       await this.state.petInstance.methods.getInfomation().call()
@@ -128,10 +133,12 @@ class PetDetail extends Component {
     petInstance.gotoAndPlay();
     createjs.Ticker.addEventListener('tick', this.tick);
   }
+
   tick() {
     this.stage.update();
     createjs.Ticker.framerate = 5;
   }
+
   render() {
     return (
       <div>
@@ -140,21 +147,25 @@ class PetDetail extends Component {
             <canvas id='canvas' width='1000px' height='800px' />
           </Col>
           <Col xs='3'>
-            <div className='pet_info'>
-              <p>
-                <span>Growth Time: </span>
-                <span id='growth_time'>
-                  {this.state.growthTime}/{this.state.duration}
-                </span>
-                <span> seconds</span>
-              </p>
-              <p>
-                <span>Provident Fund: </span>
-                <span id='provident_fund'>
-                  {this.state.providentFund}/{this.state.targetFund}
-                </span>
-                <span> TOMO</span>
-              </p>
+            <div className='pet_tracking'>
+              <div className='growth_tracking'>
+                <p>Growth Tracking</p>
+                <StepProgressBar
+                  percent={(this.state.growthTime / this.state.duration) * 100}
+                  step={Pet[this.state.type].progress.length}
+                  type={this.state.type}
+                />
+              </div>
+              <div className='fund_tracking'>
+                <p>Fund Tracking</p>
+                <Progress
+                  animated
+                  value={(this.state.providentFund / this.state.targetFund) * 100}
+                  color='warning'
+                >
+                  {this.state.providentFund} / {this.state.targetFund} TOMO
+                </Progress>
+              </div>
             </div>
             <hr />
             <div className='manipulation_form'>
