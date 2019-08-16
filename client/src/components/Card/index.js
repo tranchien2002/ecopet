@@ -12,7 +12,7 @@ const PetCard = (props) => {
             <img alt='...' className='img-center img-fluid item-img' src={Pet[props.pet.id].src} />
           </CardHeader>
           <CardBody>
-            <CardTitle>{props.pet.purpose} </CardTitle>
+            <CardTitle>{props.pet.purpose ? props.pet.purpose : 'Unknown'} </CardTitle>
             <Progress
               animated
               color='danger'
