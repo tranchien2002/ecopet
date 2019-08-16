@@ -10,7 +10,7 @@ class StepProgressBar extends Component {
     let progressArray = Pet[this.props.type].progress;
     for (let i = 0; i < progressArray.length; i++) {
       steps.push(
-        <Step transition='scale'>
+        <Step transition='scale' key={i}>
           {({ accomplished }) => (
             <img
               alt=''
