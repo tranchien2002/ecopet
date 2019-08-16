@@ -28,7 +28,7 @@ class PetDeck extends React.Component {
         <div className='box-button-create'>
           {this.props.pets.length !== 0 ? (
             <div>
-              <div className='row margin-0 header-create'>
+              <div className='row margin-0'>
                 <div className='infor-pet col-8'>
                   <h3 className='infor-wallet'>Information </h3>
                   <p> Address : </p>
