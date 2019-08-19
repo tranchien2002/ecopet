@@ -1,7 +1,7 @@
 const walk = {
   images: [require('assets/sprites/pinkYeti/walk.png')],
 
-  framerate: 20,
+  framerate: 5,
   frames: [
     [1, 1, 104, 111, 0, 52, 111],
     [332, 1, 112, 104, 0, 56, 104],
@@ -19,7 +19,7 @@ const walk = {
 const idle = {
   images: [require('assets/sprites/pinkYeti/idle.png')],
 
-  framerate: 20,
+  framerate: 5,
   frames: [
     [1, 1, 100, 107, 0, 50, 107],
     [103, 1, 100, 107, 0, 50, 107],
@@ -35,7 +35,7 @@ const idle = {
 const dead = {
   images: [require('assets/sprites/pinkYeti/dead.png')],
 
-  framerate: 20,
+  framerate: 5,
   frames: [
     [1, 1, 100, 107, 0, 100, 107],
     [177, 96, 113, 93, 0, 113, 93],
@@ -57,9 +57,9 @@ const dead = {
   }
 };
 
-const PinkYeti = {
+const pinkYeti = {
   walk,
   idle,
   dead
 };
-export default PinkYeti;
+export default pinkYeti;

@@ -1,16 +1,13 @@
-.manipulation_form {
-  /* margin: 5%; */
-}
 
 .pet_tracking {
   text-align: left;
   font-size: 16px;
-  padding: 5%;
 }
 
 .growth_tracking,
 .fund_tracking {
   margin: 5px;
+  width: 100%
 }
 
 .form-inline .form-control {
@@ -62,3 +59,8 @@
   background: rgba(0, 116, 217, 0.8);
   z-index: -1;
 }
+form{
+  text-align: left;
+}
+
+

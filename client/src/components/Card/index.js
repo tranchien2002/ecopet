@@ -16,7 +16,7 @@ const PetCard = (props) => {
             <Progress
               animated
               color='danger'
-              value={(props.pet.time / 86400 / props.pet.duration) * 100}
+              value={(props.pet.time /props.pet.duration) * 100}
             >
               Age: {Math.floor(props.pet.time / 86400)} / {props.pet.duration / 86400} days
             </Progress>
