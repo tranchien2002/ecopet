@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card, CardTitle, CardBody, CardHeader, Progress } from 'reactstrap';
-import './Card.scss';
+import 'components/Card/Card.scss';
 import { Link } from 'react-router-dom';
 import Pet from 'constants/PetInformation';
 const PetCard = (props) => {
   return (
-    <div className='card-item'>
+    <div className='card-item '>
       <Link to={`/pets/${props.index}`}>
         <Card>
           <CardHeader className='card-header'>
@@ -13,11 +13,7 @@ const PetCard = (props) => {
           </CardHeader>
           <CardBody>
             <CardTitle>{props.pet.purpose ? props.pet.purpose : 'Unknown'} </CardTitle>
-            <Progress
-              animated
-              color='danger'
-              value={(props.pet.time /props.pet.duration) * 100}
-            >
+            <Progress animated color='danger' value={(props.pet.time / props.pet.duration) * 100}>
               Age: {Math.floor(props.pet.time / 86400)} / {props.pet.duration / 86400} days
             </Progress>
             <br />

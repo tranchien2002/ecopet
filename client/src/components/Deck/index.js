@@ -1,8 +1,8 @@
 import React from 'react';
-import CarouselCard from '../CarouselCard';
-import DefaultCard from '../Card/DefaultCard';
-import NewPetModal from '../Modal';
-import './Deck.css';
+import CarouselCard from 'components/CarouselCard';
+import DefaultCard from 'components/Card/DefaultCard';
+import NewPetModal from 'components/Modal';
+import 'components/Deck/Deck.css';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 

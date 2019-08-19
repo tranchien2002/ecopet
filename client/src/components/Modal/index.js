@@ -1,13 +1,12 @@
 import React from 'react';
-import { Row, Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
-import NewCard from '../Card/NewCard';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
 import store from 'store';
 import * as actions from 'actions';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Pet from 'constants/PetInformation';
-
-import './Modal.css';
+import CarouselNewPet from 'components/CarouselNewPet';
+import 'components/Modal/Modal.css';
 
 class NewPetModal extends React.Component {
   constructor(props) {
@@ -20,7 +19,17 @@ class NewPetModal extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  async handleClick(pet) {
+  async handleClick() {
+    let type = parseInt(
+      document
+        .querySelector('div.slick-slide.slick-active.slick-current div.item-pet')
+        .getAttribute('data-type')
+    );
+
+    let pet = Pet.find((element) => {
+      return element.type === type;
+    });
+
     await store.dispatch(
       actions.createNewPet(pet.type, pet.targetFund, pet.duration, this.state.purpose)
     );
@@ -37,17 +46,9 @@ class NewPetModal extends React.Component {
         <Modal className='modal-dialog' isOpen={this.props.isOpen} toggle={this.props.toggle}>
           <ModalHeader>Create New Pet</ModalHeader>
           <ModalBody>
-            <Row>
-              {Pet.map((item, index) => (
-                <NewCard
-                  key={index}
-                  onClick={() => this.setState({ chosenPet: item })}
-                  src={item.src}
-                  targetFund={item.targetFund}
-                  duration={item.duration}
-                />
-              ))}
-            </Row>
+            <div>
+              <CarouselNewPet pets={Pet} />
+            </div>
           </ModalBody>
           <ModalFooter>
             <div className='create-form'>
@@ -59,10 +60,7 @@ class NewPetModal extends React.Component {
                   placeholder='purpose'
                   onChange={this.handleChange}
                 />
-                <Button
-                  color='success'
-                  onClick={() => this.handleClick(this.state.chosenPet).then(this.props.toggle)}
-                >
+                <Button color='success' onClick={() => this.handleClick().then(this.props.toggle)}>
                   Create
                 </Button>
                 <Button color='secondary' onClick={this.props.toggle}>
