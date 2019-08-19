@@ -1,6 +1,8 @@
 import Yeti from './Yeti';
-import Pig from './Pig';
+import Dodo from './Dodo';
+import Alista from './Alista';
 export const PetType = {
   Yeti,
-  Pig
+  Dodo,
+  Alista
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Form, Label, Input, Progress } from 'reactstrap';
+import { Row, Container, Col, Button, Form, Input, Progress } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from 'store';
@@ -28,10 +28,10 @@ class PetDetail extends Component {
       progress: 0,
       action: PetAction.DEFAULT,
       scale: 1,
-      xCoordinate: 700,
-      yCoordinate: 500
+      xCoordinate: window.innerWidth / 2,
+      yCoordinate: window.innerHeight / 2
     };
-
+    this.canvas = React.createRef();
     this.tick = this.tick.bind(this);
     this.feedPet = this.feedPet.bind(this);
     this.withDraw = this.withDraw.bind(this);
@@ -46,8 +46,14 @@ class PetDetail extends Component {
       petWallet.abi,
       this.props.petsAddress[this.props.match.params.address]
     );
-    this.setState({ petInstance: PetInstance });
     this.stage = new createjs.Stage('canvas');
+    this.stage.canvas.height = window.innerHeight / 2 + 100;
+    this.stage.canvas.width = document.getElementById('size').clientWidth;
+    this.setState({
+      petInstance: PetInstance,
+      xCoordinate: window.innerWidth / 2,
+      yCoordinate: window.innerHeight / 2
+    });
     this.getPetInfo();
   }
 
@@ -65,12 +71,15 @@ class PetDetail extends Component {
     let progress = (this.state.growthTime / this.state.duration) * 100;
     let progressArray = Pet[this.state.type].progress;
     for (let element of progressArray) {
-      if (progress <= element.milestone) {
+      if (progress < element.milestone) {
         this.setState({
-          progress: element.index
+          progress: element.index - 1
         });
-        break;
+        return;
       }
+      this.setState({
+        progress: progressArray.length - 1
+      });
     }
   }
 
@@ -154,17 +163,15 @@ class PetDetail extends Component {
       this.setState({ xCoordinate: petSprite.x });
     }
 
-    createjs.Ticker.framerate = 5;
+    createjs.Ticker.framerate =
+      Pet[this.state.type].progress[this.state.progress].item[this.state.action].framerate;
   }
 
   render() {
     return (
-      <div>
+      <Container>
         <Row>
-          <Col xs='9'>
-            <canvas id='canvas' width='1000px' height='800px' />
-          </Col>
-          <Col xs='3'>
+          <Col>
             <div className='pet_tracking'>
               <div className='growth_tracking'>
                 <p>Growth Tracking</p>
@@ -185,10 +192,12 @@ class PetDetail extends Component {
                 </Progress>
               </div>
             </div>
-            <hr />
-            <div className='manipulation_form'>
-              <Form inline onSubmit={this.feedPet}>
-                <Label className='mr-sm-2' />
+          </Col>
+        </Row>
+        <Row>
+          <div className='manipulation_form'>
+            <Form inline onSubmit={this.feedPet}>
+              <Col xs='8'>
                 <Input
                   type='number'
                   id='feedAmount'
@@ -196,12 +205,15 @@ class PetDetail extends Component {
                   onChange={this.handleSendChange}
                   value={this.state.sendValue}
                 />
-                <Button color='success' type='submit'>
+              </Col>
+              <Col xs='4'>
+                <Button color='success' type='submit' size='md'>
                   Feed
                 </Button>
-              </Form>
-              <Form inline onSubmit={this.withDraw}>
-                <Label className='mr-sm-2' />
+              </Col>
+            </Form>
+            <Form inline onSubmit={this.withDraw}>
+              <Col xs='8'>
                 <Input
                   type='number'
                   id='withdrawAmount'
@@ -209,14 +221,19 @@ class PetDetail extends Component {
                   onChange={this.handleWithdrawChange}
                   value={this.state.withdrawValue}
                 />
-                <Button color='primary' type='submit'>
+              </Col>
+              <Col xs='4'>
+                <Button color='primary' type='submit' size='md'>
                   Withdraw
                 </Button>
-              </Form>
-            </div>
-          </Col>
+              </Col>
+            </Form>
+          </div>
         </Row>
-      </div>
+        <Row id='size'>
+          <canvas id='canvas' />
+        </Row>
+      </Container>
     );
   }
 }

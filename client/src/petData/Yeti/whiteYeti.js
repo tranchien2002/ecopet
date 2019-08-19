@@ -1,7 +1,7 @@
 export const walk = {
   images: [require('assets/sprites/whiteYeti/walk.png')],
 
-  framerate: 20,
+  framerate: 5,
   frames: [
     [1, 1, 104, 111, 0, 51, 104],
     [332, 1, 112, 104, 0, 61, 97],
@@ -19,7 +19,7 @@ export const walk = {
 export const idle = {
   images: [require('assets/sprites/whiteYeti/idle.png')],
 
-  framerate: 20,
+  framerate: 5,
   frames: [
     [1, 1, 100, 107, 0, 50, 107],
     [103, 1, 100, 107, 0, 50, 107],
@@ -35,7 +35,7 @@ export const idle = {
 export const dead = {
   images: [require('assets/sprites/whiteYeti/dead.png')],
 
-  framerate: 20,
+  framerate: 5,
   frames: [
     [1, 1, 100, 107, 0, 100, 107],
     [177, 96, 113, 93, 0, 113, 93],
@@ -80,10 +80,10 @@ export const attack = {
     '36': { frames: [6] }
   }
 };
-const WhiteYeti = {
+const whiteYeti = {
   walk,
   idle,
   dead,
   attack
 };
-export default WhiteYeti;
+export default whiteYeti;

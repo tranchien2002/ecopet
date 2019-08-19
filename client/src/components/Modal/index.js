@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
+import { Row, Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
 import NewCard from '../Card/NewCard';
 import store from 'store';
 import * as actions from 'actions';
@@ -37,7 +37,7 @@ class NewPetModal extends React.Component {
         <Modal className='modal-dialog' isOpen={this.props.isOpen} toggle={this.props.toggle}>
           <ModalHeader>Create New Pet</ModalHeader>
           <ModalBody>
-            <div className='card-deck row'>
+            <Row>
               {Pet.map((item, index) => (
                 <NewCard
                   key={index}
@@ -47,7 +47,7 @@ class NewPetModal extends React.Component {
                   duration={item.duration}
                 />
               ))}
-            </div>
+            </Row>
           </ModalBody>
           <ModalFooter>
             <div className='create-form'>

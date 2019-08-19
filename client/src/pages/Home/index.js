@@ -5,7 +5,11 @@ import Loading from 'components/Loading';
 import PetDeck from 'components/Deck';
 class Home extends Component {
   render() {
-    return <div>{this.props.tomo.web3 && this.props.pets ? <PetDeck /> : <Loading />}</div>;
+    return (
+      <div className='home'>
+        {this.props.tomo.web3 && this.props.pets ? <PetDeck /> : <Loading />}
+      </div>
+    );
   }
 }
 
