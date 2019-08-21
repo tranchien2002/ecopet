@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PetCard from 'components/Card';
-import 'components/CarouselCard/CarouselCard.css';
+import 'components/CarouselNewPet/CarouselNewPet.css';
+import NewCard from 'components/Card/NewCard';
 import Slider from 'react-slick';
 import '../../../node_modules/slick-carousel/slick/slick.css';
 import '../../../node_modules/slick-carousel/slick/slick-theme.css';
 
-class CarouselCard extends Component {
+class CarouselNewPet extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -21,13 +21,20 @@ class CarouselCard extends Component {
       arrows: false,
       focusOnSelect: true
     };
+
     const slides = this.props.pets.map((item, index) => {
       return (
-        <div key={index}>
-          <PetCard key={index} pet={item} index={index} />
+        <div key={index} data-type={item.type} className='item-pet'>
+          <NewCard
+            key={index}
+            src={item.src}
+            targetFund={item.targetFund}
+            duration={item.duration}
+          />
         </div>
       );
     });
+
     return (
       <div>
         <Slider {...settings}>{slides}</Slider>
@@ -36,4 +43,4 @@ class CarouselCard extends Component {
   }
 }
 
-export default CarouselCard;
+export default CarouselNewPet;

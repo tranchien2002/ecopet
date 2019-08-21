@@ -75,8 +75,8 @@
 .header-create {
   margin-bottom: 1em;
   border-radius: 0 0 100% 60%;
-  background-image: linear-gradient(177deg, #70b96d, #24b51f);
-  padding-bottom: 1.3em;
+  /* background-image: linear-gradient(177deg, #70b96d, #24b51f); */
+  padding-bottom: 0.5em;
   padding-top: 1em;
   color: black;
 }
@@ -111,7 +111,7 @@
   }
 
   .card-header img {
-    height: 150px;
+    height: 210px;
   }
 
   .card-header-default-card img {

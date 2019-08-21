@@ -4,6 +4,7 @@
 .card-item {
   width: 100%;
   margin-bottom: 3em;
+  padding-top: 5em;
 }
 .card-header {
   padding: 0;
@@ -141,8 +142,32 @@
   height: 25px;
 }
 
+.carousel-padding {
+  padding-top: 3em;
+}
+.slick-dots {
+  padding-bottom: 1em !important;
+}
+
+@media (max-width: 576px) and (max-height: 670px) {
+  .item-img-new {
+    height: 170px !important;
+  }
+  .item-img {
+    height: 200px !important;
+  }
+}
+
 @media (max-width: 576px) {
   .card-header img {
     height: 270px;
+  }
+
+  .item-img {
+    height: 270px;
+  }
+
+  .card-item {
+    padding-top: 2.5em;
   }
 }

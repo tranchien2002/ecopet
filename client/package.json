@@ -11,9 +11,11 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-step-progress-bar": "^1.0.3",
+    "react-slick": "^0.25.2",
     "reactstrap": "^8.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "slick-carousel": "^1.8.1",
     "thunk": "^0.0.1",
     "web3": "1.0.0-beta.36"
   },
