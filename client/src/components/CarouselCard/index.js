@@ -15,10 +15,10 @@ class CarouselCard extends Component {
     const settings = {
       dots: true,
       infinite: true,
-      speed: 400,
+      speed: 300,
       slidesToShow: 1,
       slidesToScroll: 1,
-      arrows: false,
+      arrows: true,
       focusOnSelect: true
     };
     const slides = this.props.pets.map((item, index) => {
