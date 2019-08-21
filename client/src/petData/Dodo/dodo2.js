@@ -1,7 +1,7 @@
 const idle = {
   images: [require('assets/sprites/dodo/anger.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [1087, 1, 235, 208, 0, 117.5, 208], //1
     [314, 1, 260, 229, 0, 130, 229], //2
@@ -38,7 +38,7 @@ const idle = {
 const walk = {
   images: [require('assets/sprites/dodo/light.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [500, 272, 234, 208, 0, 106, 142], //1
     [255, 272, 243, 210, 0, 111, 149], //2
@@ -74,7 +74,7 @@ const walk = {
 const dead = {
   images: [require('assets/sprites/dodo/dead.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [267, 1, 235, 208, 0, 117.5, 208], //1
     [1, 622, 264, 188, 0, 132, 188], //2

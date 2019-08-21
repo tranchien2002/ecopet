@@ -1,5 +1,6 @@
 import whiteYeti from './whiteYeti';
 import pinkYeti from './pinkYeti';
+import goldYeti from './goldYeti';
 const Yeti = {
   size: [
     {
@@ -32,28 +33,21 @@ const Yeti = {
     },
     {
       index: 1,
-      item: pinkYeti,
-      milestone: 25,
+      item: goldYeti,
+      milestone: 50,
       src: 'https://image.flaticon.com/icons/svg/1994/1994987.svg'
     },
     {
       index: 2,
       item: pinkYeti,
-      milestone: 50,
-      src: 'https://image.flaticon.com/icons/svg/1994/1994999.svg'
-    },
-    {
-      index: 3,
-      item: pinkYeti,
-      milestone: 75,
-      src: 'https://image.flaticon.com/icons/svg/1995/1995005.svg'
-    },
-    {
-      index: 4,
-      item: pinkYeti,
       milestone: 100,
-      src: 'https://image.flaticon.com/icons/svg/1995/1995018.svg'
+      src: 'https://image.flaticon.com/icons/svg/1994/1994999.svg'
     }
-  ]
+  ],
+  background: {
+    src: require('assets/img/background1.png'),
+    scaleX: 0.7,
+    scaleY: 0.75
+  }
 };
 export default Yeti;
