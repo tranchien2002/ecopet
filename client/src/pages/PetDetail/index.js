@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Container, Col, Button, Form, Input, Progress } from 'reactstrap';
+import { Row, Col, Button, Form, Input, Progress } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from 'store';
@@ -52,12 +52,12 @@ class PetDetail extends Component {
       this.props.petsAddress[this.props.match.params.address]
     );
     this.stage = new createjs.Stage('canvas');
-    this.stage.canvas.height = window.innerHeight / 2 + 100;
+    this.stage.canvas.height = window.innerHeight / 2;
     this.stage.canvas.width = document.getElementById('size').clientWidth;
     this.setState({
       petInstance: PetInstance,
       xCoordinate: window.innerWidth / 2,
-      yCoordinate: window.innerHeight / 2
+      yCoordinate: window.innerHeight / 2 - 50
     });
     this.getPetInfo();
   }
@@ -136,9 +136,19 @@ class PetDetail extends Component {
         this.action();
       });
   };
-
   action() {
     this.stage.removeAllChildren();
+    const img = new Image();
+    img.src = Pet[this.state.type].background.src;
+    let background = new createjs.Bitmap(img);
+    background.image.onload = () => {
+      background.sourceRect = new createjs.Rectangle(0, 0, img.width, img.height);
+      background.scaleX = Pet[this.state.type].background.scaleX;
+      background.scaleY = Pet[this.state.type].background.scaleY;
+      background.x = window.innerWidth / 2 - (img.width * background.scaleX) / 2;
+      background.y = this.stage.canvas.height - img.height * background.scaleY - 50;
+    };
+
     let petAction = new createjs.SpriteSheet(
       Pet[this.state.type].progress[this.state.progress].item[this.state.action]
     );
@@ -148,6 +158,7 @@ class PetDetail extends Component {
     petSprite.y = this.state.yCoordinate;
     petSprite.scaleX = this.state.scale;
     petSprite.scaleY = this.state.scale;
+    this.stage.addChild(background);
     this.stage.addChild(petSprite);
     petSprite.gotoAndPlay();
     createjs.Ticker.addEventListener('tick', this.tick);
@@ -174,28 +185,28 @@ class PetDetail extends Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <Row>
           <Col>
-            <div className='pet_tracking'>
-              <div className='growth_tracking'>
-                <p>Growth Tracking</p>
-                <StepProgressBar
-                  percent={(this.state.growthTime / this.state.duration) * 100}
-                  step={Pet[this.state.type].progress.length}
-                  type={this.state.type}
-                />
-              </div>
-              <div className='fund_tracking'>
-                <p>Fund Tracking</p>
-                <Progress
-                  animated
-                  value={(this.state.providentFund / this.state.targetFund) * 100}
-                  color='warning'
-                >
-                  {this.state.providentFund} / {this.state.targetFund} TOMO
-                </Progress>
-              </div>
+            <div className='growth_tracking'>
+              <p>Growth Tracking</p>
+              <StepProgressBar
+                percent={(this.state.growthTime / this.state.duration) * 100}
+                step={Pet[this.state.type].progress.length}
+                type={this.state.type}
+              />
+            </div>
+          </Col>
+          <Col>
+            <div className='fund_tracking'>
+              <p>Fund Tracking</p>
+              <Progress
+                animated
+                value={(this.state.providentFund / this.state.targetFund) * 100}
+                color='warning'
+              >
+                {this.state.providentFund} / {this.state.targetFund} TOMO
+              </Progress>
             </div>
           </Col>
         </Row>
@@ -205,6 +216,7 @@ class PetDetail extends Component {
               <Col xs='8'>
                 <Input
                   type='number'
+                  pattern='\d*'
                   id='feedAmount'
                   placeholder='feed amount'
                   onChange={this.handleSendChange}
@@ -221,6 +233,7 @@ class PetDetail extends Component {
               <Col xs='8'>
                 <Input
                   type='number'
+                  pattern='\d*'
                   id='withdrawAmount'
                   placeholder='withdraw amount'
                   onChange={this.handleWithdrawChange}
@@ -238,7 +251,7 @@ class PetDetail extends Component {
         <Row id='size'>
           <canvas id='canvas' />
         </Row>
-      </Container>
+      </div>
     );
   }
 }

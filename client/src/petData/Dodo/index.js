@@ -20,13 +20,13 @@ const Dodo = {
   progress: [
     {
       index: 0,
-      item: dodo1,
+      item: dodo2,
       milestone: 0,
       src: ''
     },
     {
       index: 1,
-      item: dodo2,
+      item: dodo1,
       milestone: 50,
       src: ''
     },
@@ -36,6 +36,11 @@ const Dodo = {
       milestone: 100,
       src: ''
     }
-  ]
+  ],
+  background: {
+    src: require('assets/img/background.png'),
+    scaleX: 0.25,
+    scaleY: 0.25
+  }
 };
 export default Dodo;
