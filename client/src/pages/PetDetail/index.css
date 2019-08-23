@@ -116,6 +116,17 @@ view {
 .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
   fill: #fff;
 }
+.bottom{
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+}
+button{
+  width: 100px
+}
+view{
+  height: 100vh;
+}
 
 .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path {
   stroke: #fff;

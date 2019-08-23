@@ -19,21 +19,21 @@ const Alista = {
   progress: [
     {
       index: 0,
-      item: alista2,
+      item: alista1,
       milestone: 0,
-      src: ''
+      src: require('assets/img/alista.png')
     },
     {
       index: 1,
-      item: alista1,
-      milestone: 50,
-      src: ''
+      item: alista2,
+      milestone: 100,
+      src: require('assets/img/alista2.png')
     }
   ],
   background: {
     src: require('assets/img/background4.png'),
-    scaleX: 0.6,
-    scaleY: 0.6
+    scaleX: 0.5,
+    scaleY: 0.5
   }
 };
 export default Alista;
