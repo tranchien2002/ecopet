@@ -86,11 +86,6 @@
   padding-left: 0;
 }
 
-.btn-create-pet {
-  text-align: left;
-  padding-top: 1em;
-}
-
 .infor-wallet {
   font-size: 2.2em;
 }
@@ -106,52 +101,7 @@
 .slick-arrow {
   z-index: 1000;
 }
-@media (max-width: 576px) {
-  /* .carousel {
-      margin-bottom: 3em;
-  } */
 
-  .container-custom {
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .card-header img {
-    height: 210px;
-  }
-
-  .card-header-default-card img {
-    height: 180px;
-  }
-
-  .progress {
-    height: 20px;
-  }
-
-  .card-body {
-    flex: 1 1 auto;
-    padding: 0.5rem 1rem 1rem 1rem;
-  }
-
-  .gif-load {
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .infor-wallet {
-    font-size: 1.8em;
-  }
-
-  .pushme .inner {
-    padding: 0.7em;
-  }
-}
-
-.btn-create-pet {
-  padding-top: 0.5em;
-  margin: auto;
-  text-align: center;
-}
 .account-address {
   overflow-wrap: break-word;
 }
@@ -191,4 +141,88 @@
 
 .avatar {
   padding-top: 2%;
+}
+
+/* Bar menu bottom dạng mobile  */
+
+.box {
+  height: 75px;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.075);
+  border-radius: 5px;
+  z-index: -1;
+}
+
+.move-left {
+  width: 50%;
+  border-right: 3px solid #d8eef9;
+  height: 80px;
+}
+.move-right {
+  width: 50%;
+}
+/* end */
+
+.circle-btn-create {
+  clip-path: circle(28%);
+  width: 40%;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  z-index: 100;
+  bottom: -45px;
+  background: #d8eef9;
+}
+
+@media (max-width: 576px) {
+  .container-custom {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .card-header img {
+    height: 41vh;
+  }
+
+  .card-header-default-card img {
+    height: 180px;
+  }
+
+  .progress {
+    height: 20px;
+  }
+
+  .card-body {
+    flex: 1 1 auto;
+    padding: 0.5rem 1rem 1rem 1rem;
+  }
+
+  .gif-load {
+    margin: 0 auto;
+    width: 90%;
+  }
+
+  .infor-wallet {
+    font-size: 1.8em;
+  }
+
+  .pushme .inner {
+    padding: 0.7em;
+  }
+  .circle-btn-create {
+    clip-path: circle(33%);
+  }
+
+  .box,
+  .move-left {
+    height: 80px;
+  }
+
+  .bottom-mobile {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin-top: 10px;
+  }
 }

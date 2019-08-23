@@ -21,6 +21,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 0;
+  margin-top: 25px;
 }
 
 .RSPBprogressBar .RSPBstep {
@@ -63,9 +64,9 @@ form {
   padding: 0;
 }
 .bottom {
-  position: fixed;
-  bottom: 10px;
+  margin-top: 50px;
   width: 100%;
+  position: relative;
 }
 button {
   width: 100px;
@@ -141,13 +142,40 @@ view{
   vertical-align: middle;
 }
 
+.clear-both {
+  clear: both;
+}
+
+.img-gif-tracking {
+  width: 35px;
+  float: left;
+  margin-right: 10px;
+}
+
+.box {
+  height: 50px;
+}
+
+.move-left,
+.move-right {
+  line-height: 50px;
+}
+
+.z-index-1000 {
+  z-index: 1000;
+}
+
+.active-click {
+  background: #bbe26c;
+}
+
 @media (max-width: 576px) {
   .img-gif-tracking {
     width: 25px;
     margin-right: 5px;
   }
   .RSPBprogressBar {
-    margin-top: 45px;
+    margin-top: 22px;
   }
   .fund-circle-tracking {
     margin-top: 15px;

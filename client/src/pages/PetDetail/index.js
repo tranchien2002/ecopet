@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -58,12 +58,12 @@ class PetDetail extends Component {
       this.props.petsAddress[this.props.match.params.address]
     );
     this.stage = new createjs.Stage('canvas');
-    this.stage.canvas.height = (window.innerHeight * 2) / 3;
+    this.stage.canvas.height = (window.innerHeight * 2) / 3 - 50;
     this.stage.canvas.width = document.getElementById('size').clientWidth;
     this.setState({
       petInstance: PetInstance,
       xCoordinate: window.innerWidth / 2,
-      yCoordinate: (window.innerHeight * 2) / 3 - 50
+      yCoordinate: (window.innerHeight * 2) / 3 - 100
     });
     this.getPetInfo();
   }
@@ -234,7 +234,7 @@ class PetDetail extends Component {
         <Row id='size'>
           <canvas id='canvas' />
         </Row>
-        <Row>
+        <Row className='z-index-1000'>
           {this.state.feed
             ? petFood.map((item) => (
                 <Col xs='4' onClick={() => this.feedPet(item.value)} key={item.value}>
@@ -247,22 +247,25 @@ class PetDetail extends Component {
                 </Col>
               ))}
         </Row>
-        <Row className='bottom'>
-          <Col>
-            <Button size='md' color={this.state.feedButtonColor} onClick={this.handleFeedClick}>
-              Feed
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              size='md'
-              color={this.state.withDrawButtonColor}
-              onClick={this.handleWithdrawClick}
-            >
-              Withdraw
-            </Button>
-          </Col>
-        </Row>
+        <div className='bottom-mobile'>
+          <div className='circle-btn-create'>
+            <span className='pushme'>
+              <span className='inner' onClick={this.toggleNewPet}>
+                <img alt='pet' src={require('assets/img/home-page.png')} />{' '}
+              </span>
+            </span>
+          </div>
+          <div className='box'>
+            <div className='icons row'>
+              <div className='move-left' onClick={this.handleFeedClick}>
+                <img alt='feed' src={require('assets/img/plus-math.png')} />
+              </div>
+              <div className='move-right' onClick={this.handleWithdrawClick}>
+                <img alt='withDraw' src={require('assets/img/minus-math.png')} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

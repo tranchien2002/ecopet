@@ -44,7 +44,7 @@ class NewPetModal extends React.Component {
     return (
       <div>
         <Modal className='modal-dialog' isOpen={this.props.isOpen} toggle={this.props.toggle}>
-          <ModalHeader>Create New Pet</ModalHeader>
+          <ModalHeader toggle={this.props.toggle}>Create New Pet</ModalHeader>
           <ModalBody>
             <div>
               <CarouselNewPet pets={Pet} />
@@ -52,20 +52,24 @@ class NewPetModal extends React.Component {
           </ModalBody>
           <ModalFooter>
             <div className='create-form'>
-              <Form>
-                <Input
-                  type='string'
-                  id='purpose'
-                  maxLength={16}
-                  placeholder='purpose'
-                  onChange={this.handleChange}
-                />
-                <Button color='success' onClick={() => this.handleClick().then(this.props.toggle)}>
-                  Create
-                </Button>
-                <Button color='secondary' onClick={this.props.toggle}>
-                  Cancel
-                </Button>
+              <Form className='row'>
+                <div className='col-8 col-md-8'>
+                  <Input
+                    type='string'
+                    id='purpose'
+                    maxLength={16}
+                    placeholder='Name pet...'
+                    onChange={this.handleChange}
+                  />
+                </div>
+                <div className='col-4 col-md-4'>
+                  <Button
+                    color='success'
+                    onClick={() => this.handleClick().then(this.props.toggle)}
+                  >
+                    Create
+                  </Button>
+                </div>
               </Form>
             </div>
           </ModalFooter>
