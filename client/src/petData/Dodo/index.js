@@ -20,21 +20,21 @@ const Dodo = {
   progress: [
     {
       index: 0,
-      item: dodo2,
+      item: dodo1,
       milestone: 0,
-      src: ''
+      src: require('assets/img/dodo1.png')
     },
     {
       index: 1,
-      item: dodo1,
+      item: dodo2,
       milestone: 50,
-      src: ''
+      src: require('assets/img/dodo2.png')
     },
     {
       index: 2,
       item: dodo3,
       milestone: 100,
-      src: ''
+      src: require('assets/img/dodo3.png')
     }
   ],
   background: {
