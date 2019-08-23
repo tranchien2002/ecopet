@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Progress } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from 'store';
@@ -204,8 +205,24 @@ class PetDetail extends Component {
       <div className='view'>
         <Row>
           <Col>
+            <div className='fund_tracking'>
+              <div className='fund-circle-tracking'>
+                <CircularProgressbarWithChildren
+                  value={(this.state.providentFund / this.state.targetFund) * 100}
+                >
+                  <img alt='' src={require('assets/img/giphy.webp')} width='40' />
+                  <div className='fund-circle-tracking-info'>
+                    <strong>
+                      {this.state.providentFund} / {this.state.targetFund}
+                    </strong>
+                    TOMO
+                  </div>
+                </CircularProgressbarWithChildren>
+              </div>
+            </div>
+          </Col>
+          <Col>
             <div className='growth_tracking'>
-              <p>Growth Tracking</p>
               <StepProgressBar
                 percent={(this.state.growthTime / this.state.duration) * 100}
                 step={Pet[this.state.type].progress.length}
@@ -213,20 +230,7 @@ class PetDetail extends Component {
               />
             </div>
           </Col>
-          <Col>
-            <div className='fund_tracking'>
-              <p>Fund Tracking</p>
-              <Progress
-                animated
-                value={(this.state.providentFund / this.state.targetFund) * 100}
-                color='warning'
-              >
-                {this.state.providentFund} / {this.state.targetFund} TOMO
-              </Progress>
-            </div>
-          </Col>
         </Row>
-        <Row />
         <Row id='size'>
           <canvas id='canvas' />
         </Row>

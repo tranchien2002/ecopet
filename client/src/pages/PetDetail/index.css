@@ -1,8 +1,7 @@
-
 .growth_tracking,
 .fund_tracking {
   margin: 5px;
-  width: 80%
+  width: 80%;
 }
 
 .form-inline .form-control {
@@ -54,25 +53,93 @@
   background: rgba(0, 116, 217, 0.8);
   z-index: -1;
 }
-form{
+form {
   text-align: left;
 }
-.row{
+.row {
   margin-left: 0;
   margin-right: 0;
   align-self: auto;
-  padding:0
+  padding: 0;
 }
-.bottom{
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
+.bottom {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
 }
-button{
-  width: 100px
+button {
+  width: 100px;
 }
-view{
+view {
   height: 100vh;
 }
 
+.fund-circle-tracking {
+  width: 100px;
+  display: flex;
+  margin: 0 auto;
+  margin-top: 20px;
+}
 
+.fund-circle-tracking-info {
+  font-size: 8px;
+  margin-top: 2px;
+}
+
+.CircularProgressbar .CircularProgressbar-path {
+  stroke: yellowgreen;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease 0s;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+  stroke: #d6d6d6;
+  /* Used when trail is not full diameter, i.e. when props.circleRatio is set */
+  stroke-linecap: round;
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  fill: #3e98c7;
+  font-size: 20px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.CircularProgressbar .CircularProgressbar-background {
+  fill: #d6d6d6;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-background {
+  fill: #3e98c7;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
+  fill: #fff;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path {
+  stroke: #fff;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail {
+  stroke: transparent;
+}
+
+.CircularProgressbar {
+  width: 100%;
+  vertical-align: middle;
+}
+
+@media (max-width: 576px) {
+  .img-gif-tracking {
+    width: 25px;
+    margin-right: 5px;
+  }
+  .RSPBprogressBar {
+    margin-top: 45px;
+  }
+  .fund-circle-tracking {
+    margin-top: 15px;
+    width: 65%;
+  }
+}
