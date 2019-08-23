@@ -1,7 +1,7 @@
 const idle = {
   images: [require('assets/sprites/dodo/attack.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [296, 880, 236, 205, 0, 107, 143], //1
     [(646, 1, 258, 206, 0, 124, 149)], //2
@@ -41,7 +41,7 @@ const idle = {
 const walk = {
   images: [require('assets/sprites/dodo/power.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [770, 1, 236, 204, 0, 107, 145], //1
     [531, 1, 237, 202, 0, 109, 144], //2

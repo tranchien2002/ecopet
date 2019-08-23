@@ -29,19 +29,19 @@ const Yeti = {
       index: 0,
       item: whiteYeti,
       milestone: 0,
-      src: 'https://image.flaticon.com/icons/svg/1994/1994980.svg'
+      src: require('assets/img/whiteYeti.png')
     },
     {
       index: 1,
-      item: goldYeti,
+      item: pinkYeti,
       milestone: 50,
-      src: 'https://image.flaticon.com/icons/svg/1994/1994987.svg'
+      src: require('assets/img/pinkYeti.png')
     },
     {
       index: 2,
-      item: pinkYeti,
+      item: goldYeti,
       milestone: 100,
-      src: 'https://image.flaticon.com/icons/svg/1994/1994999.svg'
+      src: require('assets/img/goldYeti.png')
     }
   ],
   background: {
