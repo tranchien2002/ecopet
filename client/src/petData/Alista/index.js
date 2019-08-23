@@ -32,8 +32,8 @@ const Alista = {
   ],
   background: {
     src: require('assets/img/background4.png'),
-    scaleX: 0.7,
-    scaleY: 0.5
+    scaleX: 0.6,
+    scaleY: 0.6
   }
 };
 export default Alista;

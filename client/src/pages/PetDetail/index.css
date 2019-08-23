@@ -63,5 +63,16 @@ form{
   align-self: auto;
   padding:0
 }
+.bottom{
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+}
+button{
+  width: 100px
+}
+view{
+  height: 100vh;
+}
 
 

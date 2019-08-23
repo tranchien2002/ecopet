@@ -40,7 +40,7 @@ const Dodo = {
   background: {
     src: require('assets/img/background.png'),
     scaleX: 0.25,
-    scaleY: 0.25
+    scaleY: 0.3
   }
 };
 export default Dodo;

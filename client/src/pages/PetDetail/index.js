@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Form, Input, Progress } from 'reactstrap';
+import { Row, Col, Button, Progress } from 'reactstrap';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import store from 'store';
@@ -9,8 +9,11 @@ import StepProgressBar from './StepProgressBar';
 import petWallet from 'contracts/PetWallet.json';
 import Pet from 'constants/Pet';
 import { PetAction } from 'constants/PetAction';
-
+import Food from 'components/Food';
+import Withdraw from 'components/Withdraw';
 import './index.css';
+import { petFood } from 'constants/PetFood';
+import { withDraw } from 'constants/Petwithdraw';
 
 class PetDetail extends Component {
   constructor() {
@@ -23,13 +26,15 @@ class PetDetail extends Component {
       duration: 0,
       petInstance: null,
       type: 0,
-      sendValue: '',
       withdrawValue: '',
       progress: 0,
       action: PetAction.DEFAULT,
       scale: 1,
       xCoordinate: window.innerWidth / 2,
-      yCoordinate: window.innerHeight / 2
+      yCoordinate: (window.innerHeight * 2) / 3,
+      feed: true,
+      feedButtonColor: 'success',
+      withDrawButtonColor: 'secondary'
     };
     this.canvas = React.createRef();
     this.tick = this.tick.bind(this);
@@ -52,12 +57,12 @@ class PetDetail extends Component {
       this.props.petsAddress[this.props.match.params.address]
     );
     this.stage = new createjs.Stage('canvas');
-    this.stage.canvas.height = window.innerHeight / 2;
+    this.stage.canvas.height = (window.innerHeight * 2) / 3;
     this.stage.canvas.width = document.getElementById('size').clientWidth;
     this.setState({
       petInstance: PetInstance,
       xCoordinate: window.innerWidth / 2,
-      yCoordinate: window.innerHeight / 2 - 50
+      yCoordinate: (window.innerHeight * 2) / 3 - 50
     });
     this.getPetInfo();
   }
@@ -104,16 +109,14 @@ class PetDetail extends Component {
     this.setState({ sendValue: e.target.value });
   };
 
-  feedPet = async (event) => {
-    event.preventDefault();
+  feedPet = async (value) => {
     let PetInstance = this.state.petInstance;
     await PetInstance.methods
-      .savingMoney(this.state.sendValue)
-      .send({ from: this.props.tomo.account, value: this.state.sendValue * 10 ** 18 })
+      .savingMoney(value)
+      .send({ from: this.props.tomo.account, value: value * 10 ** 18 })
       .then(async () => {
         this.getPetInfo();
         this.setState({
-          sendValue: '',
           action: PetAction.FEED
         });
         this.action();
@@ -124,11 +127,11 @@ class PetDetail extends Component {
     this.setState({ withdrawValue: e.target.value });
   };
 
-  withDraw = async (event) => {
-    event.preventDefault();
+  withDraw = async (value) => {
+    let amount = Math.ceil((this.state.providentFund * value) / 100);
     let PetInstance = this.state.petInstance;
     await PetInstance.methods
-      .withdrawMoney(this.state.withdrawValue)
+      .withdrawMoney(amount)
       .send({ from: this.props.tomo.account })
       .then(async () => {
         this.getPetInfo();
@@ -182,10 +185,23 @@ class PetDetail extends Component {
     createjs.Ticker.framerate =
       Pet[this.state.type].progress[this.state.progress].item[this.state.action].framerate;
   }
-
+  handleFeedClick = () => {
+    this.setState({
+      feed: true,
+      feedButtonColor: 'success',
+      withDrawButtonColor: 'secondary'
+    });
+  };
+  handleWithdrawClick = () => {
+    this.setState({
+      feed: false,
+      withDrawButtonColor: 'danger',
+      feedButtonColor: 'secondary'
+    });
+  };
   render() {
     return (
-      <div>
+      <div className='view'>
         <Row>
           <Col>
             <div className='growth_tracking'>
@@ -210,46 +226,38 @@ class PetDetail extends Component {
             </div>
           </Col>
         </Row>
-        <Row>
-          <div className='manipulation_form'>
-            <Form inline onSubmit={this.feedPet}>
-              <Col xs='8'>
-                <Input
-                  type='number'
-                  pattern='\d*'
-                  id='feedAmount'
-                  placeholder='feed amount'
-                  onChange={this.handleSendChange}
-                  value={this.state.sendValue}
-                />
-              </Col>
-              <Col xs='4'>
-                <Button color='success' type='submit' size='md'>
-                  Feed
-                </Button>
-              </Col>
-            </Form>
-            <Form inline onSubmit={this.withDraw}>
-              <Col xs='8'>
-                <Input
-                  type='number'
-                  pattern='\d*'
-                  id='withdrawAmount'
-                  placeholder='withdraw amount'
-                  onChange={this.handleWithdrawChange}
-                  value={this.state.withdrawValue}
-                />
-              </Col>
-              <Col xs='4'>
-                <Button color='primary' type='submit' size='md'>
-                  Withdraw
-                </Button>
-              </Col>
-            </Form>
-          </div>
-        </Row>
+        <Row />
         <Row id='size'>
           <canvas id='canvas' />
+        </Row>
+        <Row>
+          {this.state.feed
+            ? petFood.map((item) => (
+                <Col xs='4' onClick={() => this.feedPet(item.value)} key={item.value}>
+                  <Food item={item} />
+                </Col>
+              ))
+            : withDraw.map((item) => (
+                <Col xs='4' onClick={() => this.withDraw(item.value)} key={item.value}>
+                  <Withdraw item={item} />
+                </Col>
+              ))}
+        </Row>
+        <Row className='bottom'>
+          <Col>
+            <Button size='md' color={this.state.feedButtonColor} onClick={this.handleFeedClick}>
+              Feed
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              size='md'
+              color={this.state.withDrawButtonColor}
+              onClick={this.handleWithdrawClick}
+            >
+              Withdraw
+            </Button>
+          </Col>
         </Row>
       </div>
     );
