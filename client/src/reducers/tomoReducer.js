@@ -16,7 +16,8 @@ const tomoReducer = (state = initialState, action) => {
       return {
         ...state,
         web3: action.web3,
-        account: action.account
+        account: action.account,
+        balance: action.balance
       };
     case actions.INSTANTIATE_CONTRACT:
       return {
