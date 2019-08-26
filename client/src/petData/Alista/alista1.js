@@ -1,7 +1,7 @@
 const idle = {
   images: [require('assets/sprites/alista/idle.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [97, 1, 94, 124, 0, 44.9, 110.1], //1
     [1, 1, 94, 125, 0, 44.9, 110.99], //2
@@ -19,7 +19,7 @@ const idle = {
 const walk = {
   images: [require('assets/sprites/alista/walk.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [1, 1, 96, 125, 0, 45.86, 110.99], //2
     [207, 1, 100, 123, 0, 47.77, 109.22], //3
@@ -37,7 +37,7 @@ const walk = {
 const dead = {
   images: [require('assets/sprites/alista/dead.png')],
 
-  framerate: 20,
+  framerate: 10,
   frames: [
     [463, 1, 125, 115, 0, 51, 103],
     [332, 1, 129, 115, 0, 56, 103],
