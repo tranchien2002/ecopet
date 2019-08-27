@@ -1,7 +1,11 @@
 .foodImg{
     margin: auto;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
+}
+.foodImg:hover{
+    transition: all 0.5s;
+    transform: scale(1.5);
 }
 .foodImg:hover{
     transition: all 0.5s;

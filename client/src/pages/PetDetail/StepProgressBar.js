@@ -16,6 +16,7 @@ class StepProgressBar extends Component {
               alt=''
               style={{ filter: `grayscale(${accomplished ? 0 : 80}%)` }}
               width='30'
+              height='30'
               src={progressArray[i].src}
             />
           )}
