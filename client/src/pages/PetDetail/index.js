@@ -15,6 +15,7 @@ import Withdraw from 'components/Withdraw';
 import './index.css';
 import { petFood } from 'constants/PetFood';
 import { withDraw } from 'constants/Petwithdraw';
+import { Link } from 'react-router-dom';
 
 class PetDetail extends Component {
   constructor() {
@@ -248,19 +249,27 @@ class PetDetail extends Component {
               ))}
         </Row>
         <div className='bottom-mobile'>
-          <div className='circle-btn-create'>
-            <span className='pushme'>
-              <span className='inner' onClick={this.toggleNewPet}>
-                <img alt='pet' src={require('assets/img/home-page.png')} />{' '}
+          <div className='circle-btn-home'>
+            <Link to={`/`}>
+              <span className='pushme'>
+                <span className='inner' onClick={this.toggleNewPet}>
+                  <img alt='pet' src={require('assets/img/home-page.png')} />{' '}
+                </span>
               </span>
-            </span>
+            </Link>
           </div>
           <div className='box'>
             <div className='icons row'>
-              <div className='move-left' onClick={this.handleFeedClick}>
+              <div
+                className={(this.state.feed ? 'active-click' : '') + ' move-left'}
+                onClick={this.handleFeedClick}
+              >
                 <img alt='feed' src={require('assets/img/plus-math.png')} />
               </div>
-              <div className='move-right' onClick={this.handleWithdrawClick}>
+              <div
+                className={(!this.state.feed ? 'active-click' : '') + ' move-right'}
+                onClick={this.handleWithdrawClick}
+              >
                 <img alt='withDraw' src={require('assets/img/minus-math.png')} />
               </div>
             </div>

@@ -117,15 +117,15 @@ view {
 .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
   fill: #fff;
 }
-.bottom{
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
+.bottom {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
 }
-button{
-  width: 100px
+button {
+  width: 100px;
 }
-view{
+view {
   height: 100vh;
 }
 
@@ -152,21 +152,29 @@ view{
   margin-right: 10px;
 }
 
-.box {
-  height: 50px;
-}
-
-.move-left,
-.move-right {
-  line-height: 50px;
-}
-
 .z-index-1000 {
   z-index: 1000;
 }
 
 .active-click {
-  background: #bbe26c;
+  background: #98e5f1;
+}
+
+.move-left,
+.move-right {
+  cursor: pointer;
+  line-height: 80px;
+}
+
+.circle-btn-home {
+  clip-path: circle(28%);
+  width: 12%;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  z-index: 100;
+  bottom: -45px;
+  background: #d8eef9;
 }
 
 @media (max-width: 576px) {
@@ -180,5 +188,23 @@ view{
   .fund-circle-tracking {
     margin-top: 15px;
     width: 65%;
+  }
+
+  .box {
+    height: 50px;
+  }
+
+  .move-left,
+  .move-right {
+    line-height: 50px;
+  }
+  .circle-btn-home {
+    width: 48%;
+  }
+}
+
+@media (min-width: 577px) {
+  .circle-btn-home {
+    width: 30%;
   }
 }
