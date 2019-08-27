@@ -3,7 +3,7 @@ const Pet = [
     src: require('assets/img/whiteYeti.png'),
     type: 0,
     targetFund: 25,
-    duration: 5
+    duration: 1
   },
   {
     src: require('assets/img/dodo.png'),

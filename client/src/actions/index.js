@@ -112,14 +112,12 @@ export const createNewPet = (petId, targetFund, duration, purpose) => async (
   const state = getState();
   const factory = state.tomo.factory;
   const account = state.tomo.account;
-  let newPet = await factory.methods
+  const pets = state.tomo.pets;
+  await factory.methods
     .create(petId, targetFund, duration, purpose)
     .send({ from: account })
     .then(() => {
-      dispatch({
-        type: CREATE_NEW_PET,
-        newPet
-      });
+      window.location.href = `/pets/${pets.length}`;
     })
     .catch((e) => {
       console.log('Create pet action error', e);
