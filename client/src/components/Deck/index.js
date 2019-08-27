@@ -64,22 +64,25 @@ class PetDeck extends React.Component {
               />
             </div>
           </div>
-          <br />
-          <br />
-          <br />
           {this.props.pets.length !== 0 ? (
             <div>
               <div className='slide-custom'>
                 <CarouselCard pets={this.props.pets} />
               </div>
-              <br />
-              <br />
-              <div className='btn-create-pet col-4'>
-                <span className='pushme'>
-                  <span className='inner' onClick={this.toggleNewPet}>
-                    <img alt='pet' src={require('assets/img/784101.png')} />{' '}
+              <div className='bottom-mobile'>
+                <div className='circle-btn-create'>
+                  <span className='pushme'>
+                    <span className='inner' onClick={this.toggleNewPet}>
+                      <img alt='pet' src={require('assets/img/784101.png')} />{' '}
+                    </span>
                   </span>
-                </span>
+                </div>
+                <div className='box'>
+                  <div className='icons'>
+                    <div className='move-left' />
+                    <div className='move-right' />
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
