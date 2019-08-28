@@ -2,8 +2,6 @@ import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Input, Form, Button } from 'reactstrap';
 import store from 'store';
 import * as actions from 'actions';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import Pet from 'constants/PetInformation';
 import CarouselNewPet from 'components/CarouselNewPet';
 import 'components/Modal/Modal.css';
@@ -33,7 +31,6 @@ class NewPetModal extends React.Component {
     await store.dispatch(
       actions.createNewPet(pet.type, pet.targetFund, pet.duration, this.state.purpose)
     );
-    await store.dispatch(actions.getAllPets());
   }
 
   handleChange = (e) => {
@@ -79,9 +76,4 @@ class NewPetModal extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    petList: state.newPets
-  };
-};
-export default compose(connect(mapStateToProps))(NewPetModal);
+export default NewPetModal;
