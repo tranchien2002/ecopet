@@ -1,7 +1,9 @@
+const path = require('path');
 var HDWalletProvider = require('truffle-hdwallet-provider');
 require('dotenv').config();
 console.log('mnemonic', process.env);
 module.exports = {
+  contracts_build_directory: path.join(__dirname, 'client/src/contracts'),
   networks: {
     development: {
       host: '127.0.0.1',

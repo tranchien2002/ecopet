@@ -26,22 +26,26 @@ export const web3Connect = () => async (dispatch) => {
 export const web3TomoWalletConnect = () => async (dispatch) => {
   var Web3 = require('web3');
   const web3 = new Web3(window.web3.currentProvider);
-  window.web3.eth.getAccounts(async (e, accounts) => {
-    if (accounts.length > 0) {
-      const account = accounts[0];
-      let balance = await web3.eth.getBalance(account);
-      balance = parseFloat(web3.utils.fromWei(balance)).toFixed(2);
-      dispatch({
-        type: WEB3_CONNECT,
-        web3,
-        account,
-        balance
-      });
-      dispatch(instantiateContracts());
-      dispatch(getAllPets());
-    } else {
-      console.log('Account not found');
-    }
+  await new Promise((resolve, reject) => {
+    window.web3.eth.getAccounts(async (e, accounts) => {
+      if (accounts.length > 0) {
+        const account = accounts[0];
+        let balance = await web3.eth.getBalance(account);
+        balance = parseFloat(web3.utils.fromWei(balance)).toFixed(2);
+        dispatch({
+          type: WEB3_CONNECT,
+          web3,
+          account,
+          balance
+        });
+        dispatch(instantiateContracts());
+        dispatch(getAllPets());
+        resolve();
+      } else {
+        reject();
+        console.log('Account not found');
+      }
+    });
   });
 };
 
@@ -112,14 +116,12 @@ export const createNewPet = (petId, targetFund, duration, purpose) => async (
   const state = getState();
   const factory = state.tomo.factory;
   const account = state.tomo.account;
-  let newPet = await factory.methods
+  const pets = state.tomo.pets;
+  await factory.methods
     .create(petId, targetFund, duration, purpose)
     .send({ from: account })
     .then(() => {
-      dispatch({
-        type: CREATE_NEW_PET,
-        newPet
-      });
+      window.location.href = `/pets/${pets.length}`;
     })
     .catch((e) => {
       console.log('Create pet action error', e);
