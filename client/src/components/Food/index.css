@@ -19,3 +19,15 @@
     height: 30px;
 }
 }
+.foodImg:hover{
+    transition: all 0.5s;
+    transform: scale(1.5);
+}
+
+@media (max-width: 320px){
+    .foodImg{
+    margin: auto;
+    width: 30px;
+    height: 30px;
+}
+}

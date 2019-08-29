@@ -52,9 +52,9 @@ class PetDetail extends Component {
     } else if (window.web3.currentProvider.isTomoWallet) {
       await store.dispatch(actions.web3TomoWalletConnect());
     }
-    await store.dispatch(actions.instantiateContracts());
+    // await store.dispatch(actions.instantiateContracts());
     await store.dispatch(actions.getAllPetsAddress());
-    let PetInstance = await new this.props.tomo.web3.eth.Contract(
+    let PetInstance = new this.props.tomo.web3.eth.Contract(
       petWallet.abi,
       this.props.petsAddress[this.props.match.params.address]
     );
