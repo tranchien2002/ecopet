@@ -6,6 +6,10 @@ export const WEB3_CONNECT = 'WEB3_CONNECT';
 export const web3Connect = () => async (dispatch) => {
   const web3 = await getWeb3();
   const accounts = await web3.eth.getAccounts();
+  if (web3.currentProvider.networkVersion !== '89') {
+    alert('Unknown network, please change network to TomoChain testnet');
+    return;
+  }
   if (accounts.length > 0) {
     const account = accounts[0];
     let balance = await web3.eth.getBalance(account);
@@ -26,6 +30,12 @@ export const web3Connect = () => async (dispatch) => {
 export const web3TomoWalletConnect = () => async (dispatch) => {
   var Web3 = require('web3');
   const web3 = new Web3(window.web3.currentProvider);
+  window.web3.version.getNetwork((e, netId) => {
+    if (netId !== '89') {
+      alert('Unknown network, please change network to TomoChain testnet');
+      return;
+    }
+  });
   await new Promise((resolve, reject) => {
     window.web3.eth.getAccounts(async (e, accounts) => {
       if (accounts.length > 0) {
