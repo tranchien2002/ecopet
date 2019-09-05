@@ -6,7 +6,8 @@
 .container-custom {
   width: 540px;
   margin: 0 auto;
-  height: 100%;
+  height: 100vh;
+  background: #edf9ff;
 }
 
 .carousel-control-next-icon {
@@ -175,10 +176,17 @@
   background: #d8eef9;
 }
 
+.bottom-mobile {
+  position: fixed;
+  bottom: 0;
+  width: 540px;
+}
+
 @media (max-width: 576px) {
   .container-custom {
     width: 100%;
     margin: 0 auto;
+    background: #edf9ff;
   }
 
   .card-header img {
@@ -224,5 +232,6 @@
     bottom: 0;
     width: 100%;
     margin-top: 10px;
+    background: #edf9ff;
   }
 }

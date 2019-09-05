@@ -59,12 +59,15 @@ class PetDetail extends Component {
       this.props.petsAddress[this.props.match.params.address]
     );
     this.stage = new createjs.Stage('canvas');
-    this.stage.canvas.height = (window.innerHeight * 2) / 3 - 50;
-    this.stage.canvas.width = document.getElementById('size').clientWidth;
+    var divcanvas = document.getElementById('box-canvas');
+    console.log(divcanvas.clientWidth);
+
+    this.stage.canvas.height = (divcanvas.clientHeight * 2) / 3 - 50;
+    this.stage.canvas.width = divcanvas.clientWidth;
     this.setState({
       petInstance: PetInstance,
-      xCoordinate: window.innerWidth / 2,
-      yCoordinate: (window.innerHeight * 2) / 3 - 100
+      xCoordinate: divcanvas.clientWidth / 2,
+      yCoordinate: (divcanvas.clientHeight * 2) / 3 - 100
     });
     this.getPetInfo();
   }
@@ -142,6 +145,7 @@ class PetDetail extends Component {
       });
   };
   action() {
+    let divcanvas = document.getElementById('box-canvas');
     this.stage.removeAllChildren();
     const img = new Image();
     img.src = Pet[this.state.type].background.src;
@@ -150,7 +154,7 @@ class PetDetail extends Component {
       background.sourceRect = new createjs.Rectangle(0, 0, img.width, img.height);
       background.scaleX = Pet[this.state.type].background.scaleX;
       background.scaleY = Pet[this.state.type].background.scaleY;
-      background.x = window.innerWidth / 2 - (img.width * background.scaleX) / 2;
+      background.x = divcanvas.clientWidth / 2 - (img.width * background.scaleX) / 2;
       background.y = this.stage.canvas.height - img.height * background.scaleY - 50;
     };
 
@@ -204,73 +208,87 @@ class PetDetail extends Component {
   render() {
     return (
       <div className='view'>
-        <Row>
-          <Col>
-            <div className='fund_tracking'>
-              <div className='fund-circle-tracking'>
-                <CircularProgressbarWithChildren
-                  value={(this.state.providentFund / this.state.targetFund) * 100}
-                >
-                  <img alt='' src={require('assets/img/giphy.webp')} width='40' />
-                  <div className='fund-circle-tracking-info'>
-                    <strong>
-                      {this.state.providentFund} / {this.state.targetFund}
-                    </strong>
-                    TOMO
+        <div className='row justify-content-md-center '>
+          <div id='box-canvas'>
+            <Row>
+              <Col>
+                <div className='fund_tracking'>
+                  <div className='fund-circle-tracking'>
+                    <CircularProgressbarWithChildren
+                      value={(this.state.providentFund / this.state.targetFund) * 100}
+                    >
+                      <img alt='' src={require('assets/img/giphy.webp')} width='40' />
+                      <div className='fund-circle-tracking-info'>
+                        <strong>
+                          {this.state.providentFund} / {this.state.targetFund}
+                        </strong>
+                        TOMO
+                      </div>
+                    </CircularProgressbarWithChildren>
                   </div>
-                </CircularProgressbarWithChildren>
+                </div>
+              </Col>
+              <Col>
+                <div className='growth_tracking'>
+                  <StepProgressBar
+                    percent={(this.state.growthTime / this.state.duration) * 100}
+                    step={Pet[this.state.type].progress.length}
+                    type={this.state.type}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row id='size'>
+              <canvas id='canvas' />
+            </Row>
+            <Row>
+              {this.state.feed
+                ? petFood.map((item) => (
+                    <Col
+                      xs='4'
+                      className='z-index-1000'
+                      onClick={() => this.feedPet(item.value)}
+                      key={item.value}
+                    >
+                      <Food item={item} />
+                    </Col>
+                  ))
+                : withDraw.map((item) => (
+                    <Col
+                      xs='4'
+                      className='z-index-1000'
+                      onClick={() => this.withDraw(item.value)}
+                      key={item.value}
+                    >
+                      <Withdraw item={item} />
+                    </Col>
+                  ))}
+            </Row>
+            <div className='bottom-mobile'>
+              <div className='circle-btn-home'>
+                <Link to={`/`}>
+                  <span className='pushme'>
+                    <span className='inner' onClick={this.toggleNewPet}>
+                      <img alt='pet' src={require('assets/img/home-page.png')} />{' '}
+                    </span>
+                  </span>
+                </Link>
               </div>
-            </div>
-          </Col>
-          <Col>
-            <div className='growth_tracking'>
-              <StepProgressBar
-                percent={(this.state.growthTime / this.state.duration) * 100}
-                step={Pet[this.state.type].progress.length}
-                type={this.state.type}
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row id='size'>
-          <canvas id='canvas' />
-        </Row>
-        <Row className='z-index-1000'>
-          {this.state.feed
-            ? petFood.map((item) => (
-                <Col xs='4' onClick={() => this.feedPet(item.value)} key={item.value}>
-                  <Food item={item} />
-                </Col>
-              ))
-            : withDraw.map((item) => (
-                <Col xs='4' onClick={() => this.withDraw(item.value)} key={item.value}>
-                  <Withdraw item={item} />
-                </Col>
-              ))}
-        </Row>
-        <div className='bottom-mobile'>
-          <div className='circle-btn-home'>
-            <Link to={`/`}>
-              <span className='pushme'>
-                <span className='inner' onClick={this.toggleNewPet}>
-                  <img alt='pet' src={require('assets/img/home-page.png')} />{' '}
-                </span>
-              </span>
-            </Link>
-          </div>
-          <div className='box'>
-            <div className='icons row'>
-              <div
-                className={(this.state.feed ? 'active-click' : '') + ' move-left'}
-                onClick={this.handleFeedClick}
-              >
-                <img alt='feed' src={require('assets/img/plus-math.png')} />
-              </div>
-              <div
-                className={(!this.state.feed ? 'active-click' : '') + ' move-right'}
-                onClick={this.handleWithdrawClick}
-              >
-                <img alt='withDraw' src={require('assets/img/minus-math.png')} />
+              <div className='box'>
+                <div className='icons row'>
+                  <div
+                    className={(this.state.feed ? 'active-click' : '') + ' move-left'}
+                    onClick={this.handleFeedClick}
+                  >
+                    <img alt='feed' src={require('assets/img/plus-math.png')} />
+                  </div>
+                  <div
+                    className={(!this.state.feed ? 'active-click' : '') + ' move-right'}
+                    onClick={this.handleWithdrawClick}
+                  >
+                    <img alt='withDraw' src={require('assets/img/minus-math.png')} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
