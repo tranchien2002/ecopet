@@ -4,23 +4,15 @@ const PetWalletFactory = artifacts.require('PetWalletFactory');
 // const PetWallet = artifacts.require('PetWallet');
 
 module.exports = function(deployer) {
-  // deployer.deploy(PetWallet('0x0)).then((detail) => {
+  deployer.deploy(PetWalletFactory);
+
+  // deployer.deploy(PetWalletFactory).then((detail) => {
   //   address = '{' + '\n' + '"address":' + '"' + detail.constructor.address + '"' + '\n' + '}';
   //   fs.writeFile(
-  //     './client/src/contractsAddress/PetWallet_Address.json',
+  //     './client/src/contractsAddress/PetWalletFactory_Address.json',
   //     address,
   //     'utf8',
   //     (err) => {}
   //   );
   // });
-
-  deployer.deploy(PetWalletFactory).then((detail) => {
-    address = '{' + '\n' + '"address":' + '"' + detail.constructor.address + '"' + '\n' + '}';
-    fs.writeFile(
-      './client/src/contractsAddress/PetWalletFactory_Address.json',
-      address,
-      'utf8',
-      (err) => {}
-    );
-  });
 };

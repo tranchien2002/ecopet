@@ -28,7 +28,6 @@ class PetDetail extends Component {
       duration: 0,
       petInstance: null,
       type: 0,
-      withdrawValue: '',
       progress: 0,
       action: PetAction.DEFAULT,
       scale: 1,
@@ -60,7 +59,6 @@ class PetDetail extends Component {
     );
     this.stage = new createjs.Stage('canvas');
     var divcanvas = document.getElementById('box-canvas');
-    console.log(divcanvas.clientWidth);
 
     this.stage.canvas.height = (divcanvas.clientHeight * 2) / 3 - 50;
     this.stage.canvas.width = divcanvas.clientWidth;
@@ -74,7 +72,7 @@ class PetDetail extends Component {
 
   async getPetInfo() {
     let [type, providentFund, growthTime, targetFund, duration] = Object.values(
-      await this.state.petInstance.methods.getInfomation().call()
+      await this.state.petInstance.methods.getInformation().call()
     );
     this.setState({ type, providentFund, growthTime, targetFund, duration });
     this.getProgress();
@@ -110,26 +108,25 @@ class PetDetail extends Component {
     }
   }
 
-  handleSendChange = (e) => {
-    this.setState({ sendValue: e.target.value });
-  };
-
   feedPet = async (value) => {
     let PetInstance = this.state.petInstance;
     await PetInstance.methods
       .savingMoney(value)
       .send({ from: this.props.tomo.account, value: value * 10 ** 18 })
-      .then(async () => {
-        this.getPetInfo();
+      .on('transactionHash', (hash) => {
         this.setState({
           action: PetAction.FEED
         });
         this.action();
+      })
+      .on('receipt', (receipt) => {
+        this.getPetInfo();
+      })
+      .on('error', () => {
+        alert('Transaction failed');
+        this.setState({ action: PetAction.DEFAULT });
+        this.action();
       });
-  };
-
-  handleWithdrawChange = (e) => {
-    this.setState({ withdrawValue: e.target.value });
   };
 
   withDraw = async (value) => {
@@ -138,9 +135,17 @@ class PetDetail extends Component {
     await PetInstance.methods
       .withdrawMoney(amount)
       .send({ from: this.props.tomo.account })
-      .then(async () => {
+      .on('transactionHash', (hash) => {
         this.getPetInfo();
-        this.setState({ withdrawValue: '', action: PetAction.WITHDRAW });
+        this.setState({ action: PetAction.WITHDRAW });
+        this.action();
+      })
+      .on('receipt', (receipt) => {
+        this.getPetInfo();
+      })
+      .on('error', () => {
+        alert('Transaction failed');
+        this.setState({ action: PetAction.DEFAULT });
         this.action();
       });
   };

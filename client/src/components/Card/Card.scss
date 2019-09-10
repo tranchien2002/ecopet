@@ -25,19 +25,11 @@
   z-index: 1;
   border-style: none;
 }
-.card:hover {
+.maincard:hover {
   border: solid pink;
   transform: scale(1.1);
 }
 
-.activeNewCard {
-  border: solid pink;
-  transform: scale(1.1);
-}
-
-.active {
-  transform: scale(1.1);
-}
 .card-header:before,
 .card-header:after {
   content: '';

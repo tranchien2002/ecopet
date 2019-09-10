@@ -7,7 +7,7 @@ const PetCard = (props) => {
   return (
     <div className='card-item '>
       <Link to={`/pets/${props.index}`}>
-        <Card>
+        <Card className='maincard'>
           <CardHeader className='card-header'>
             <img alt='...' className='img-center img-fluid item-img' src={Pet[props.pet.id].src} />
           </CardHeader>
