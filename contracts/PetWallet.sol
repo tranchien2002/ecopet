@@ -8,7 +8,7 @@ contract PetWallet {
    * Storage
    */
 
-  address payable public petOwner;
+  address payable petOwner;
   uint public petId;
   uint public targetFund;
   uint public duration;
@@ -116,13 +116,13 @@ contract PetWallet {
   function checkIsFreezing() public returns (bool) {
     if(now.sub(lastTimeSavingMoney) > (3 days)) {
       isFreezing = true;
-    }
+    } 
 
     return isFreezing;
   }
 
   // @dev Allows to get all infomations of this pet
-  function getInfomation() public view returns (uint, uint, uint, uint, uint, string memory) {
+  function getInformation() public view returns (uint, uint, uint, uint, uint, string memory) {
       return (petId, providentFund, growthTime, targetFund, duration, purpose);
   }
 }
