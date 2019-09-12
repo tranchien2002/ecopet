@@ -55,7 +55,10 @@ class PetDetail extends Component {
     await store.dispatch(actions.getAllPetsAddress());
     let PetInstance = new this.props.tomo.web3.eth.Contract(
       petWallet.abi,
-      this.props.petsAddress[this.props.match.params.address]
+      this.props.petsAddress[this.props.match.params.address],
+      {
+        transactionConfirmationBlocks: 1
+      }
     );
     this.stage = new createjs.Stage('canvas');
     var divcanvas = document.getElementById('box-canvas');
@@ -71,9 +74,16 @@ class PetDetail extends Component {
   }
 
   async getPetInfo() {
-    let [type, providentFund, growthTime, targetFund, duration] = Object.values(
-      await this.state.petInstance.methods.getInformation().call()
-    );
+    let petInfo = Object.values(await this.state.petInstance.methods.getInformation().call());
+    let [type, providentFund, growthTime, targetFund, duration] = [
+      petInfo[0].toNumber(),
+      petInfo[1].toNumber(),
+      petInfo[2].toNumber(),
+      petInfo[3].toNumber(),
+      petInfo[4].toNumber(),
+      petInfo[5]
+    ];
+    console.log('providentFund', providentFund);
     this.setState({ type, providentFund, growthTime, targetFund, duration });
     this.getProgress();
     this.getSize();
@@ -136,7 +146,6 @@ class PetDetail extends Component {
       .withdrawMoney(amount)
       .send({ from: this.props.tomo.account })
       .on('transactionHash', (hash) => {
-        this.getPetInfo();
         this.setState({ action: PetAction.WITHDRAW });
         this.action();
       })
