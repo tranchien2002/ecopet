@@ -28,7 +28,6 @@ class PetDetail extends Component {
       duration: 0,
       petInstance: null,
       type: 0,
-      withdrawValue: '',
       progress: 0,
       action: PetAction.DEFAULT,
       scale: 1,
@@ -56,11 +55,13 @@ class PetDetail extends Component {
     await store.dispatch(actions.getAllPetsAddress());
     let PetInstance = new this.props.tomo.web3.eth.Contract(
       petWallet.abi,
-      this.props.petsAddress[this.props.match.params.address]
+      this.props.petsAddress[this.props.match.params.address],
+      {
+        transactionConfirmationBlocks: 1
+      }
     );
     this.stage = new createjs.Stage('canvas');
     var divcanvas = document.getElementById('box-canvas');
-    console.log(divcanvas.clientWidth);
 
     this.stage.canvas.height = (divcanvas.clientHeight * 2) / 3 - 50;
     this.stage.canvas.width = divcanvas.clientWidth;
@@ -73,9 +74,16 @@ class PetDetail extends Component {
   }
 
   async getPetInfo() {
-    let [type, providentFund, growthTime, targetFund, duration] = Object.values(
-      await this.state.petInstance.methods.getInfomation().call()
-    );
+    let petInfo = Object.values(await this.state.petInstance.methods.getInformation().call());
+    let [type, providentFund, growthTime, targetFund, duration] = [
+      petInfo[0].toNumber(),
+      petInfo[1].toNumber(),
+      petInfo[2].toNumber(),
+      petInfo[3].toNumber(),
+      petInfo[4].toNumber(),
+      petInfo[5]
+    ];
+    console.log('providentFund', providentFund);
     this.setState({ type, providentFund, growthTime, targetFund, duration });
     this.getProgress();
     this.getSize();
@@ -110,26 +118,25 @@ class PetDetail extends Component {
     }
   }
 
-  handleSendChange = (e) => {
-    this.setState({ sendValue: e.target.value });
-  };
-
   feedPet = async (value) => {
     let PetInstance = this.state.petInstance;
     await PetInstance.methods
       .savingMoney(value)
       .send({ from: this.props.tomo.account, value: value * 10 ** 18 })
-      .then(async () => {
-        this.getPetInfo();
+      .on('transactionHash', (hash) => {
         this.setState({
           action: PetAction.FEED
         });
         this.action();
+      })
+      .on('receipt', (receipt) => {
+        this.getPetInfo();
+      })
+      .on('error', () => {
+        alert('Transaction failed');
+        this.setState({ action: PetAction.DEFAULT });
+        this.action();
       });
-  };
-
-  handleWithdrawChange = (e) => {
-    this.setState({ withdrawValue: e.target.value });
   };
 
   withDraw = async (value) => {
@@ -138,9 +145,16 @@ class PetDetail extends Component {
     await PetInstance.methods
       .withdrawMoney(amount)
       .send({ from: this.props.tomo.account })
-      .then(async () => {
+      .on('transactionHash', (hash) => {
+        this.setState({ action: PetAction.WITHDRAW });
+        this.action();
+      })
+      .on('receipt', (receipt) => {
         this.getPetInfo();
-        this.setState({ withdrawValue: '', action: PetAction.WITHDRAW });
+      })
+      .on('error', () => {
+        alert('Transaction failed');
+        this.setState({ action: PetAction.DEFAULT });
         this.action();
       });
   };
